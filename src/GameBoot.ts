@@ -4,6 +4,7 @@ import { LogMng } from "./utils/LogMng";
 import { Settings } from './data/Settings';
 import { Params } from './data/Params';
 import { MyUtils } from './utils/MyUtils';
+import { MyMath } from './utils/MyMath';
 
 type InitParams = {
     assetsPath: string;
@@ -48,19 +49,25 @@ export class GameBoot {
 
     private readGETParams() {
 
-        const names = ['aa', 'test'];
+        const LIST = [
+            {
+                // anti aliasing
+                keys: ['aa'],
+                onReadHandler: (aValue: string) => {
+                    Settings.AA_TYPE = Number(aValue);
+                    LogMng.debug('Config.AA_TYPE = ' + Settings.AA_TYPE);
+                }
+            }
+        ];
 
-        for (let i = 0; i < names.length; i++) {
-            const n = names[i];
-            let val = MyUtils.getQueryValue(n);
-            if (val != null && val != undefined) {
-                switch (i) {
-
-                    case 0: // aa
-                        Settings.AA_TYPE = Number(val);
-                        LogMng.debug('Config.AA_TYPE = ' + Settings.AA_TYPE);
-                        break;
-                    
+        for (let i = 0; i < LIST.length; i++) {
+            const listItem = LIST[i];
+            const keys = listItem.keys;
+            for (let j = 0; j < keys.length; j++) {
+                const getName = keys[j];
+                let qValue = MyUtils.getQueryValue(getName);
+                if (qValue != null && qValue != undefined) {
+                    listItem.onReadHandler(qValue);
                 }
             }
         }

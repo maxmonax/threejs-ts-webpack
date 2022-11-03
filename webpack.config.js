@@ -35,7 +35,7 @@ module.exports = {
     devServer: {
         contentBase: path.join(__dirname, 'build'),
         compress: true,
-        port: 9090,
+        port: 9080,
         inline: true,
         watchOptions: {
             aggregateTimeout: 300,

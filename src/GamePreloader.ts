@@ -22,7 +22,6 @@ export class GamePreloader {
         this._isLoadingInProcess = true;
         // init ThreeLoader
         this._loader = ThreeLoader.getInstance({
-            isDebugMode: Params.isDebugMode,
             retryCount: 2
         });
         let setId = this._loader.createNewSet({
@@ -41,13 +40,19 @@ export class GamePreloader {
         // models
         for (let i = 0; i < MODEL_LOAD_LIST.length; i++) {
             const item = MODEL_LOAD_LIST[i];
-            this._loader.addFileToSet(aSetId, item.alias, assetsPath + item.file);
+            this._loader.addFileToSet(aSetId, {
+                alias: item.alias,
+                file: assetsPath + item.file
+            });
         }
 
         // textures
         for (let i = 0; i < TEXTURE_LOAD_LIST.length; i++) {
             const item = TEXTURE_LOAD_LIST[i];
-            this._loader.addFileToSet(aSetId, item.alias, assetsPath + item.file);
+            this._loader.addFileToSet(aSetId, {
+                alias: item.alias,
+                file: assetsPath + item.file
+            });
         }
 
     }

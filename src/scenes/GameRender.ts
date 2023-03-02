@@ -7,13 +7,13 @@ import { FXAAShader } from "three/examples/jsm/shaders/FXAAShader";
 import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPass";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import * as datGui from "dat.gui";
-import { FrontEvents } from "./events/FrontEvents";
-import { InputMng } from "./utils/input/InputMng";
-import { DeviceInfo } from "./utils/DeviceInfo";
-import { Settings } from "./data/Settings";
-import { LogMng } from "./utils/LogMng";
-import { MyMath } from "./utils/MyMath";
-import { Params } from "./data/Params";
+import { FrontEvents } from "../events/FrontEvents";
+import { InputMng } from "../utils/input/InputMng";
+import { DeviceInfo } from "../utils/DeviceInfo";
+import { Settings } from "../data/Settings";
+import { LogMng } from "../utils/LogMng";
+import { MyMath } from "../utils/MyMath";
+import { Params } from "../data/Params";
 
 type Passes = {
     composer?: EffectComposer;

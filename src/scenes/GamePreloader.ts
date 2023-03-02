@@ -1,9 +1,9 @@
-import { ThreeLoader } from './utils/threejs/ThreeLoader';
-import { Signal } from './utils/events/Signal';
-import { TEXTURE_LOAD_LIST } from './data/TextureData';
-import { MODEL_LOAD_LIST } from './data/ModelData';
-import { LogMng } from './utils/LogMng';
-import { Params } from './data/Params';
+import { ThreeLoader } from '../utils/threejs/ThreeLoader';
+import { Signal } from '../utils/events/Signal';
+import { TEXTURE_LOAD_LIST } from '../data/TextureData';
+import { MODEL_LOAD_LIST } from '../data/ModelData';
+import { LogMng } from '../utils/LogMng';
+import { Params } from '../data/Params';
 
 export class GamePreloader {
     private _loader: ThreeLoader;

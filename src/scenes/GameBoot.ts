@@ -1,10 +1,10 @@
-import { GamePreloader } from './GamePreloader';
-import { GameRender } from './GameRender';
-import { LogMng } from "./utils/LogMng";
-import { Settings } from './data/Settings';
-import { Params } from './data/Params';
-import { MyUtils } from './utils/MyUtils';
-import { MyMath } from './utils/MyMath';
+import { GamePreloader } from '../scenes/GamePreloader';
+import { GameRender } from '../scenes/GameRender';
+import { LogMng } from "../utils/LogMng";
+import { Settings } from '../data/Settings';
+import { Params } from '../data/Params';
+import { MyUtils } from '../utils/MyUtils';
+import { MyMath } from '../utils/MyMath';
 
 type InitParams = {
     assetsPath: string;

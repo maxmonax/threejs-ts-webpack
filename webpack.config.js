@@ -9,9 +9,9 @@ module.exports = {
     entry: './src/index.ts',
 
     output: {
-        filename: 'bundle-[fullhash:4].js',
+        filename: 'bundle.js',
         path: path.resolve(__dirname, 'build'),
-        publicPath: '/'
+        publicPath: './'
     },
 
     resolve: {
@@ -63,7 +63,7 @@ module.exports = {
             },
         }),
         new MiniCssExtractPlugin({
-            filename: 'style-[fullhash:4].css',
+            filename: 'css/style.css',
         }),
     ],
 

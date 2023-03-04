@@ -10,8 +10,7 @@ module.exports = {
 
     output: {
         filename: 'bundle.js',
-        path: path.resolve(__dirname, 'build'),
-        publicPath: '/'
+        path: path.resolve(__dirname, 'build')
     },
 
     resolve: {
@@ -42,18 +41,13 @@ module.exports = {
             patterns: [
                 {
                     from: '**/*',
-                    context: path.resolve(__dirname, 'public', 'assets'),
-                    to: './assets'
-                },
-                {
-                    from: '**/*',
-                    context: path.resolve(__dirname, 'public', 'js'),
-                    to: './js'
-                },
+                    context: path.resolve(__dirname, 'public'),
+                    to: './'
+                }
             ],
         }),
         new HtmlWebpackPlugin({
-            template: 'public/index.html',
+            template: 'src/index.html',
             filename: 'index.html',
             minify: {
                 collapseWhitespace: true,

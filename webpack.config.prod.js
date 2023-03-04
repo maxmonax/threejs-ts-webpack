@@ -5,6 +5,9 @@ const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 
 module.exports = merge(common, {
     mode: 'production',
+    output: {
+        publicPath: './'
+    },
     resolve: {
         plugins: [new TsconfigPathsPlugin({
             baseUrl: __dirname,

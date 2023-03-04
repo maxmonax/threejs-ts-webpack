@@ -7,6 +7,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 module.exports = {
     mode: 'development',
     entry: './src/index.ts',
+    target: 'web',
 
     output: {
         filename: 'bundle.js',

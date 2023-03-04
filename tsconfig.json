@@ -8,9 +8,9 @@
             "DOM"
         ],
         "esModuleInterop": true,
-        // "forceConsistentCasingInFileNames": true,
-        // "skipLibCheck": true,
-        // "moduleResolution": "node",
+        "forceConsistentCasingInFileNames": true,
+        "skipLibCheck": true,
+        "moduleResolution": "node",
         "outDir": "build",
         // "noImplicitAny": true,
         "sourceMap": true,

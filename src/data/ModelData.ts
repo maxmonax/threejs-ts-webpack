@@ -1,8 +1,13 @@
 
 export enum ModelAlias {
-    // charBot = 'charBot',
+    // AliasDemo = 'AliasDemo',
+    
 };
 
+/**
+ * Parent dirrectory is ./assets/models/
+ */
 export const MODEL_LOAD_LIST = [
-    // { alias: ModelAlias.charBot, file: 'characters/BotTPose.fbx' },
+    // { alias: ModelAlias.AliasDemo, file: 'ModelDemo.fbx' },
+
 ];

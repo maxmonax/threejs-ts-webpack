@@ -1,16 +1,17 @@
-import { GameBoot } from './scenes/GameBoot';
+import { Game } from './main/Game';
 import { FrontEvents } from './events/FrontEvents';
-import "./css/main.css";
-import "./css/loader.css";
+import './_html/css/main.css';
+import './_html/css/loader.css';
 
 window.addEventListener('load', () => {
-    let gameBoot = new GameBoot();
-    let event = new CustomEvent('gameBootCreated', {
-        detail: {
-            gameBoot: gameBoot
+    new Game({
+        canvasParent: document.getElementById('game'),
+        assetsPath: './assets/',
+        onLoadComplete: () => {
+            // event for front GUI loading bar
+            document.getElementById('loader').remove();
         }
     });
-    window.dispatchEvent(event);
 }, false);
 
 window.addEventListener('resize', () => {

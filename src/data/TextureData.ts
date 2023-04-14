@@ -1,8 +1,11 @@
 
 export enum TextureAlias {
-    particle = 'particle',
+    particle = 'particle'
 };
 
+/**
+ * Parent dirrectory is ./assets/textures/
+ */
 export const TEXTURE_LOAD_LIST = [
-    { alias: TextureAlias.particle, file: 'textures/particles/circle.png' },
+    { alias: TextureAlias.particle, file: 'particles/circle.png' },
 ];

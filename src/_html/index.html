@@ -16,22 +16,6 @@
     
     <script src="js/stats.min.js"></script>
 
-    <script>
-        
-        window.addEventListener('gameBootCreated', (e) => {
-            let gameBoot = e.detail.gameBoot;
-            gameBoot.init({
-                domCanvasParent: document.getElementById('game'),
-                assetsPath: './assets/',
-                onLoadComplete: () => {
-                    // event for front GUI loading bar
-                    document.getElementById('loader').remove();
-                }
-            });
-        });
-
-    </script>
-
 </head>
 
 <body>

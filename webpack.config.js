@@ -47,7 +47,7 @@ module.exports = {
             ],
         }),
         new HtmlWebpackPlugin({
-            template: 'src/index.html',
+            template: 'src/_html/index.html',
             filename: 'index.html',
             minify: {
                 collapseWhitespace: true,

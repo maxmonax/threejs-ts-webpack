@@ -177,11 +177,8 @@ export class ThreeLoader {
      * @returns 
      */
     addFileToSet(aSetId: number, aItem: LoadItem) {
-        // addFileToSet(aSetId: number, aAlias: LoadItem) {
         if (this.isAliasInLoader(aItem.alias)) {
-            // this.logError(`addFileToSet() -> File with same alias (${aAlias}) already exists in cache!`);
             throw new Error(`addFileToSet() -> File with same alias (${aItem.alias}) already exists in loader!`);
-            return;
         }
         this.sets[aSetId].loadItem.push({
             type: aItem.type != null ? aItem.type : this.getFileType(aItem.file),
@@ -692,7 +689,7 @@ export class ThreeLoader {
     }
 
     /**
-     * Get model for .obj .fbx
+     * Get model
      */
     getModel(aAlias: string, aGetRealData = false): THREE.Group {
         let data = this.cache[aAlias];
@@ -702,10 +699,15 @@ export class ThreeLoader {
             return null;
         }
 
-        if (data instanceof THREE.Group) {
+        if (aGetRealData) return data;
 
-            if (aGetRealData) return data;
-
+        if (data.scene && data.scene instanceof THREE.Group) {
+            // glb
+            return data.scene.clone(true);
+        }
+        else {
+            // other models
+            
             // try to clone
             // let copy = data.clone(true);
             // for (const key in data) {
@@ -717,27 +719,7 @@ export class ThreeLoader {
             let copy = SkeletonUtils.clone(data);
             return copy as THREE.Group;
         }
-        else {
-            this.logWarn(`getModel() -> data for key (${aAlias}) is not THREE.Group, use anothe method!`);
-            return null;
-        }
-    }
 
-    getModelGLB(aAlias: string, isFullData = false): any {
-        let data = this.cache[aAlias];
-        if (!data) {
-            LogMng.warn('ThreeLoader.getModelGLB() key not found: ' + aAlias);
-            return;
-        }
-
-        if (data.scene && data.scene instanceof THREE.Group) {
-            if (isFullData) return data;
-            return data.scene.clone(true);
-        }
-        else {
-            LogMng.warn(`ThreeLoader.getModelGLB() data for key (${aAlias}) is not GLB format, use anothe method!`);
-            return null;
-        }
     }
 
     getJSON(aAlias: string): any {

@@ -1,7 +1,6 @@
 import * as THREE from "three";
-import { Params } from "../data/Params";
 import { ILogger } from "../interfaces/ILogger";
-import { LogMng } from "../utils/LogMng";
+import { LogMng } from "../../utils/LogMng";
 import { GameBoot } from "./GameBoot";
 import { GamePreloader } from "./GamePreloader";
 import { GameScene } from "./GameScene";
@@ -9,6 +8,7 @@ import { SceneMng } from "./SceneMng";
 import { Render } from "./Render";
 import { Settings } from "../data/Settings";
 import { FrontEvents } from "../events/FrontEvents";
+import { DebugGui } from "../debug/DebugGui";
 
 type GameParams = {
     canvasParent: HTMLElement;
@@ -36,6 +36,7 @@ export class Game implements ILogger {
         this.initRenderer(this._params.canvasParent);
         this.startPreloader(aParams.assetsPath);
         this.initEvents();
+        this.initDebugGui();
 
         this._clock = new THREE.Clock();
 
@@ -52,7 +53,7 @@ export class Game implements ILogger {
     }
     
     private initStats() {
-        if (Params.isDebugMode) {
+        if (Settings.isDebugMode) {
             this._stats = new Stats();
             this._stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
             document.body.appendChild(this._stats.dom);
@@ -69,6 +70,12 @@ export class Game implements ILogger {
 
     private initEvents() {
         FrontEvents.onWindowResizeSignal.add(this.onWindowResize, this);
+    }
+
+    private initDebugGui() {
+        if (Settings.isDebugMode) {
+            DebugGui.getInstance();
+        }
     }
 
     private onWindowResize() {
@@ -108,10 +115,10 @@ export class Game implements ILogger {
     private animate() {
         let dt = this._clock.getDelta();
         
-        if (Params.isDebugMode) this._stats.begin();
+        if (Settings.isDebugMode) this._stats.begin();
         this._gameScene.update(dt);
         this._gameScene.render();
-        if (Params.isDebugMode) this._stats.end();
+        if (Settings.isDebugMode) this._stats.end();
 
         requestAnimationFrame(() => this.animate());
     }

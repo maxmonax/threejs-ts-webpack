@@ -1,7 +1,7 @@
-import { Game } from './main/Game';
-import { FrontEvents } from './events/FrontEvents';
-import './_html/css/main.css';
-import './_html/css/loader.css';
+import { Game } from './game/main/Game';
+import { FrontEvents } from './game/events/FrontEvents';
+import './html/css/main.css';
+import './html/css/loader.css';
 
 window.addEventListener('load', () => {
     new Game({

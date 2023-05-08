@@ -6,7 +6,7 @@ import { SMAAPass } from "three/examples/jsm/postprocessing/SMAAPass";
 import { FXAAShader } from "three/examples/jsm/shaders/FXAAShader";
 import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPass";
 import { ILogger } from "../interfaces/ILogger";
-import { LogMng } from "../utils/LogMng";
+import { LogMng } from "../../utils/LogMng";
 
 type AAType = 'NONE' | 'FXAA' | 'SMAA';
 

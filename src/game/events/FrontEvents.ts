@@ -1,4 +1,4 @@
-import { Signal } from "../utils/events/Signal";
+import { Signal } from "../../utils/events/Signal";
 
 export const FrontEvents = {
     onWindowResizeSignal: new Signal()

@@ -1,7 +1,6 @@
-import { LogMng } from "../utils/LogMng";
+import { LogMng } from "../../utils/LogMng";
 import { Settings } from '../data/Settings';
-import { Params } from '../data/Params';
-import { MyUtils } from '../utils/MyUtils';
+import { MyUtils } from '../../utils/MyUtils';
 import { ILogger } from '../interfaces/ILogger';
 
 export class GameBoot implements ILogger {
@@ -9,10 +8,10 @@ export class GameBoot implements ILogger {
     constructor() {
 
         // init debug mode
-        Params.isDebugMode = window.location.hash === '#debug';
+        Settings.isDebugMode = window.location.hash === '#debug';
 
         // LogMng settings
-        if (!Params.isDebugMode) LogMng.setMode(LogMng.MODE_RELEASE);
+        if (!Settings.isDebugMode) LogMng.setMode(LogMng.MODE_RELEASE);
         LogMng.system('log mode: ' + LogMng.getMode());
 
         // GET Params

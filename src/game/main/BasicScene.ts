@@ -2,7 +2,7 @@ import * as THREE from "three";
 import * as datGui from "dat.gui";
 import { ILogger } from "../interfaces/ILogger";
 import { IUpdatable } from "../interfaces/IUpdatable";
-import { LogMng } from "../utils/LogMng";
+import { LogMng } from "../../utils/LogMng";
 import { Game } from "./Game";
 import { Render } from "./Render";
 

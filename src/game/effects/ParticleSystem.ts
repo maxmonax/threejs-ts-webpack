@@ -1,6 +1,6 @@
 import * as THREE from "three";
-import { Signal } from "../utils/events/Signal";
-import { MyLinearSpline, MyMath } from "../utils/MyMath";
+import { Signal } from "../../utils/events/Signal";
+import { MyLinearSpline, MyMath } from "../../utils/MyMath";
 
 const _VS = `
     uniform float pointMultiplier;

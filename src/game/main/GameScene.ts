@@ -1,12 +1,11 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-import * as datGui from "dat.gui";
-import { InputMng } from "../utils/input/InputMng";
-import { DeviceInfo } from "../utils/DeviceInfo";
-import { LogMng } from "../utils/LogMng";
-import { MyMath } from "../utils/MyMath";
-import { Params } from "../data/Params";
+import { InputMng } from "../../utils/input/InputMng";
+import { DeviceInfo } from "../../utils/DeviceInfo";
+import { LogMng } from "../../utils/LogMng";
+import { MyMath } from "../../utils/MyMath";
 import { BasicScene } from "./BasicScene";
+import { DebugGui } from "../debug/DebugGui";
 
 export class GameScene extends BasicScene {
 
@@ -15,12 +14,8 @@ export class GameScene extends BasicScene {
 
     init(aDomCanvasParent: HTMLElement) {
         
-        this.initDebugGui();
-
         this.initObjects();
-
         this.initInput(aDomCanvasParent);
-
         this.initOrbitControl({
             domElement: aDomCanvasParent,
             camera: this.camera,
@@ -43,15 +38,6 @@ export class GameScene extends BasicScene {
         LogMng.error(`GameScene -> ${aMsg}`, aData);
     }
 
-    private initDebugGui() {
-        Params.datGui = new datGui.GUI();
-
-        if (Params.isDebugMode) {
-            // any debug gui fields
-
-        }
-    }
-    
     private initObjects() {
         
         let light = new THREE.DirectionalLight(0xffffff, 0.5);
@@ -96,7 +82,7 @@ export class GameScene extends BasicScene {
         });
 
         // debug gui
-        let gui = Params.datGui;
+        let gui = DebugGui.getInstance().gui;
 
         const guiData = {
             colorFactor: 8

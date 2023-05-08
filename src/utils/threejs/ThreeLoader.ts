@@ -724,13 +724,13 @@ export class ThreeLoader {
 
     getJSON(aAlias: string): any {
         let data = this.cache[aAlias];
-        if (!data) LogMng.warn('ThreeLoader.getJSON() key not found: ' + aAlias);
+        if (!data) this.logWarn('ThreeLoader.getJSON() key not found: ' + aAlias);
         return data;
     }
 
     getFont(aAlias: string): Font {
         let font = this.cache[aAlias];
-        if (!font) LogMng.warn('ThreeLoader.getFont() key not found: ' + aAlias);
+        if (!font) this.logWarn('ThreeLoader.getFont() key not found: ' + aAlias);
         return font;
     }
 

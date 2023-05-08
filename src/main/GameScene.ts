@@ -119,10 +119,20 @@ export class GameScene extends BasicScene {
         });
     }
 
-    private initOrbitControl(aParams?: any) {
+    private initOrbitControl(aParams: {
+        domElement: HTMLElement,
+        camera: THREE.Camera,
+        enabled?: boolean,
+        zoomSpeed?: number,
+        enablePan?: boolean,
+        panRadius?: number,
+        minDist?: number,
+        maxDist?: number,
+        stopAngleTop?: number,
+        stopAngleBot?: number
+    }) {
 
         if (this.orbitControl) return;
-        if (!aParams) aParams = {};
         let domElement = aParams.domElement;
         this.orbitControl = new OrbitControls(aParams.camera, domElement);
         this.orbitControl.enabled = aParams.enabled;

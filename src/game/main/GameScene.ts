@@ -25,6 +25,7 @@ export class GameScene extends BasicScene {
             stopAngleTop: 10,
             stopAngleBot: 170
         });
+        this.initDebug();
 
     }
 
@@ -141,6 +142,11 @@ export class GameScene extends BasicScene {
         // this.orbitControl.addEventListener('end', () => {
         // });
 
+    }
+
+    private initDebug() {
+        let axHeler = new THREE.AxesHelper(10);
+        this.scene.add(axHeler);
     }
     
     update(dt: number) {

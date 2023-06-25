@@ -1,15 +1,36 @@
 ﻿
-export type Point = {
+export class Vec2 {
+
     x: number;
     y: number;
+
+    constructor(x = 0, y = 0) {
+        this.x = x;
+        this.y = y;
+    }
+
+    static getVec2(x = 0, y = 0): Vec2 {
+        return new Vec2(x, y);
+    }
+
+    public get length(): number {
+        return Math.sqrt(this.x * this.x + this.y * this.y);
+    }
+
+    public distanceTo(x: number, y: number): number {
+        let dx = x - this.x;
+        let dy = y - this.y;
+        return Math.sqrt(dx * dx + dy * dy);
+    }
+
 };
 
 export class RectABCD {
-    a: Point;
-    b: Point;
-    c: Point;
-    d: Point;
-    constructor(a: Point, b: Point, c: Point, d: Point) {
+    a: Vec2;
+    b: Vec2;
+    c: Vec2;
+    d: Vec2;
+    constructor(a: Vec2, b: Vec2, c: Vec2, d: Vec2) {
         this.a = a; this.b = b; this.c = c; this.d = d;
     }
 }
@@ -180,7 +201,7 @@ export class MyMath {
         return rgb;
     }
 
-    public static getVector2DLength(x1: number, y1: number, x2: number, y2: number): number {
+    public static getVec2Length(x1: number, y1: number, x2: number, y2: number): number {
         let dx = x2 - x1;
         let dy = y2 - y1;
         return Math.sqrt(dx * dx + dy * dy);
@@ -196,7 +217,7 @@ export class MyMath {
      *
      * @return {number} The angle in radians.
      */
-    public static angleBetween2VectorsATan(x1: number, y1: number, x2: number, y2: number) {
+    public static angleBetweenATan(x1: number, y1: number, x2: number, y2: number) {
         return Math.atan2(y2 - y1, x2 - x1);
     };
 
@@ -232,18 +253,73 @@ export class MyMath {
         return res;
     }
 
-    public static isPointInRect(rect: RectABCD, p: Point): boolean {
+    public static isPointInRect(rect: RectABCD, p: Vec2): boolean {
         return MyMath.IsPointInTriangle(rect.a.x, rect.a.y, rect.b.x, rect.b.y, rect.c.x, rect.c.y, p.x, p.y) &&
             MyMath.IsPointInTriangle(rect.c.x, rect.c.y, rect.d.x, rect.d.y, rect.a.x, rect.a.y, p.x, p.y);
     }
 
     public static isPointInCircle(x: number, y: number, cx: number, cy: number, r: number): boolean {
-        return MyMath.getVector2DLength(x, y, cx, cy) <= r;
+        return MyMath.getVec2Length(x, y, cx, cy) <= r;
     }
 
     public static isCirclesIntersect(x1: number, y1: number, r1: number, x2: number, y2: number, r2: number): boolean {
-        return MyMath.getVector2DLength(x1, y1, x2, y2) <= r1 + r2;
+        return MyMath.getVec2Length(x1, y1, x2, y2) <= r1 + r2;
     }
+
+    // INTERPOLATION
+
+    /**
+     * Linear interpolation
+     * @param min 
+     * @param max 
+     * @param perc 
+     * @returns 
+     */
+    public static getValueBetween(min: number, max: number, perc: number): number {
+        return min + (max - min) * perc;
+    }
+
+    /**
+     * Calculates the factorial of a given number for integer values greater than 0.
+     * @param {number} aValue - A positive integer to calculate the factorial of.
+     * @return {number} The factorial of the given number.
+     */
+    public static factorial(aValue: number) {
+        if (aValue === 0) return 1;
+        let res = aValue;
+        while (--aValue) {
+            res *= aValue;
+        }
+        return res;
+    };
+
+    /**
+     * Calculates the Bernstein basis from the three factorial coefficients.
+     * @param {number} n - The first value.
+     * @param {number} i - The second value.
+     *
+     * @return {number} The Bernstein basis of Factorial(n) / Factorial(i) / Factorial(n - i)
+     */
+    public static bernstein(n, i) {
+        return this.factorial(n) / this.factorial(i) / this.factorial(n - i);
+    };
+
+    /**
+    * A bezier interpolation method.
+    * @param {number[]} v - The input array of values to interpolate between.
+    * @param {number} k - The percentage of interpolation, between 0 and 1.
+    *
+    * @return {number} The interpolated value.
+    */
+    public static bezierInterpolation(v: number[], k: number) {
+        var b = 0;
+        var n = v.length - 1;
+        for (var i = 0; i <= n; i++) {
+            b += Math.pow(1 - k, n - i) * Math.pow(k, i) * v[i] * this.bernstein(n, i);
+        }
+        return b;
+    }
+
 
 }
 

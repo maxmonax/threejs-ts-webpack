@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import { Signal } from "../../utils/events/Signal";
-import { MyLinearSpline, MyMath } from "../../utils/MyMath";
+import { MyMath } from "../../utils/MyMath";
+import { MySpline } from "../../utils/InterpolateUtils";
 
 const _VS = `
     uniform float pointMultiplier;
@@ -79,8 +80,8 @@ export class ParticleSystem {
     private _points: THREE.Points;
     private _particles: ParticleData[];
     // spline math
-    private _alphaSpline: MyLinearSpline;
-    private _scaleFactorSpline: MyLinearSpline;
+    private _alphaSpline: MySpline;
+    private _scaleFactorSpline: MySpline;
     // inner params
     private _addParticleTime = 0;
     private _startAlpha = 1;
@@ -139,7 +140,7 @@ export class ParticleSystem {
         this._params.parent.add(this._points);
 
         if (this._params.alphaChange) {
-            this._alphaSpline = new MyLinearSpline(this.simpleLinerSpline);
+            this._alphaSpline = new MySpline(this.simpleLinerSpline);
             for (let i = 0; i < this._params.alphaChange.length; i++) {
                 const a = this._params.alphaChange[i];
                 this._alphaSpline.addPoint(a.val, a.t);
@@ -148,7 +149,7 @@ export class ParticleSystem {
         }
 
         if (this._params.scaleFactorChange) {
-            this._scaleFactorSpline = new MyLinearSpline(this.simpleLinerSpline);
+            this._scaleFactorSpline = new MySpline(this.simpleLinerSpline);
             for (let i = 0; i < this._params.scaleFactorChange.length; i++) {
                 const sf = this._params.scaleFactorChange[i];
                 this._scaleFactorSpline.addPoint(sf.val, sf.t);

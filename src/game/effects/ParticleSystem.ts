@@ -3,34 +3,8 @@ import { Signal } from "../../utils/events/Signal";
 import { MyMath } from "../../utils/MyMath";
 import { MySpline } from "../../utils/InterpolateUtils";
 
-const _VS = `
-    uniform float pointMultiplier;
-
-    attribute float size;
-    attribute vec4 clr;
-
-    varying vec4 vColor;
-
-    void main() {
-        vColor = clr;
-
-        vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
-
-        gl_Position = projectionMatrix * mvPosition;
-        //gl_PointSize = pointMultiplier / gl_Position.w;
-        gl_PointSize = size * pointMultiplier / gl_Position.w;
-    }
-`;
-
-const _FS = `
-    uniform sampler2D diffuseTexture;
-
-    varying vec4 vColor;
-
-    void main() {
-        gl_FragColor = texture2D(diffuseTexture, gl_PointCoord) * vColor;
-    }
-`;
+import vertShader from "../shaders/particles/vert.glsl";
+import fragShader from "../shaders/particles/frag.glsl";
 
 type ParticleSystemParams = {
     parent: THREE.Object3D;
@@ -119,8 +93,8 @@ export class ParticleSystem {
 
         this._material = new THREE.ShaderMaterial({
             uniforms: this._uniforms,
-            vertexShader: _VS,
-            fragmentShader: _FS,
+            vertexShader: vertShader,
+            fragmentShader: fragShader,
             blending: THREE.AdditiveBlending,
             depthTest: true,
             depthWrite: false,

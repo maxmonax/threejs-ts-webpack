@@ -1,34 +1,32 @@
 import { LogMng } from "../../utils/LogMng";
 import { Settings } from '../data/Settings';
 import { MyUtils } from '../../utils/MyUtils';
-import { ILogger } from '../interfaces/ILogger';
+import { AAType } from "./Render";
+import { BasicScene } from "./BasicScene";
+import { SceneNames } from "../scenes/SceneTypes";
 
-export class GameBoot implements ILogger {
+export class BootScene extends BasicScene {
 
     constructor() {
-
-        // init debug mode
-        Settings.isDebugMode = window.location.hash === '#debug';
-
-        // LogMng settings
-        if (!Settings.isDebugMode) LogMng.setMode(LogMng.MODE_RELEASE);
-        LogMng.system('log mode: ' + LogMng.getMode());
-
-        // GET Params
-        this.readGETParams();
-
+        super(SceneNames.BootScene);
     }
 
     logDebug(aMsg: string, aData?: any): void {
-        LogMng.debug(`GameBoot -> ${aMsg}`, aData);
+        LogMng.debug(`GameBoot: ${aMsg}`, aData);
     }
     logWarn(aMsg: string, aData?: any): void {
-        LogMng.warn(`GameBoot -> ${aMsg}`, aData);
+        LogMng.warn(`GameBoot: ${aMsg}`, aData);
     }
     logError(aMsg: string, aData?: any): void {
-        LogMng.error(`GameBoot -> ${aMsg}`, aData);
+        LogMng.error(`GameBoot: ${aMsg}`, aData);
     }
 
+    onInit() {
+        // GET Params
+        this.readGETParams();
+        this.start(SceneNames.PreloaderScene);
+    }
+    
     private readGETParams() {
 
         const LIST = [
@@ -36,8 +34,8 @@ export class GameBoot implements ILogger {
                 // anti aliasing
                 keys: ['aa'],
                 onReadHandler: (aValue: string) => {
-                    Settings.AA_TYPE = aValue;
-                    LogMng.debug('Config.AA_TYPE = ' + Settings.AA_TYPE);
+                    Settings.render.aaType = aValue as AAType || 'NONE';
+                    LogMng.debug('Settings: aaType = ' + Settings.render.aaType);
                 }
             }
         ];

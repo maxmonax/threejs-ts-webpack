@@ -3,21 +3,23 @@ import { Signal } from '../../utils/events/Signal';
 import { TEXTURE_LOAD_LIST } from '../data/TextureData';
 import { MODEL_LOAD_LIST } from '../data/ModelData';
 import { LogMng } from '../../utils/LogMng';
+import { BasicScene } from './BasicScene';
+import { SceneNames } from '../scenes/SceneTypes';
+import { Config } from '../data/Config';
 
-export class GamePreloader {
+export class PreloaderScene extends BasicScene {
     private _loader: ThreeLoader;
     private _assetsPath: string;
     private _isDefaultLoaded = false;
     private _isLoadingInProcess = false;
 
-    onLoadCompleteSignal = new Signal();
-    onLoadProgressSignal = new Signal();
-
-    constructor(aAssetsPath: string) {
-        this._assetsPath = aAssetsPath;
+    constructor() {
+        super(SceneNames.PreloaderScene);
     }
 
-    start() {
+    onInit() {
+        this._assetsPath = Config.assetsPath;
+
         if (this._isDefaultLoaded || this._isLoadingInProcess) {
             LogMng.warn(``);
             return;
@@ -64,12 +66,14 @@ export class GamePreloader {
     }
 
     private onLoadProgress(aProgressPercent: number) {
-        this.onLoadProgressSignal.dispatch(aProgressPercent);
+        
     }
 
     private onLoadComplete() {
         this._isLoadingInProcess = false;
-        this.onLoadCompleteSignal.dispatch();
+        // event for front GUI loading bar
+        document.getElementById('loader').remove();
+        this.start(SceneNames.DemoScene);
     }
 
 }

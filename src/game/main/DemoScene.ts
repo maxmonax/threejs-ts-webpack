@@ -6,19 +6,36 @@ import { LogMng } from "../../utils/LogMng";
 import { MyMath } from "../../utils/MyMath";
 import { BasicScene } from "./BasicScene";
 import { DebugGui } from "../debug/DebugGui";
+import { Settings } from "../data/Settings";
+import { SceneNames } from "../scenes/SceneTypes";
 
-export class GameScene extends BasicScene {
-
-    private orbitControl: OrbitControls;
+export class DemoScene extends BasicScene {
+    private _orbitControl: OrbitControls;
     
+    constructor() {
+        super(SceneNames.DemoScene, {
+            initRender: true,
+            initScene: true,
+            initCamera: true
+        });
+    }
 
-    init(aDomCanvasParent: HTMLElement) {
-        
+    logDebug(aMsg: string, aData?: any): void {
+        LogMng.debug(`GameScene: ${aMsg}`, aData);
+    }
+    logWarn(aMsg: string, aData?: any): void {
+        LogMng.warn(`GameScene: ${aMsg}`, aData);
+    }
+    logError(aMsg: string, aData?: any): void {
+        LogMng.error(`GameScene: ${aMsg}`, aData);
+    }
+
+    protected onInit() {
         this.initObjects();
-        this.initInput(aDomCanvasParent);
+        this.initInput(Settings.render.canvasParent);
         this.initOrbitControl({
-            domElement: aDomCanvasParent,
-            camera: this.camera,
+            domElement: Settings.render.canvasParent,
+            camera: this._camera,
             enabled: true,
             minDist: 1,
             maxDist: 40,
@@ -29,21 +46,11 @@ export class GameScene extends BasicScene {
 
     }
 
-    logDebug(aMsg: string, aData?: any): void {
-        LogMng.debug(`GameScene -> ${aMsg}`, aData);
-    }
-    logWarn(aMsg: string, aData?: any): void {
-        LogMng.warn(`GameScene -> ${aMsg}`, aData);
-    }
-    logError(aMsg: string, aData?: any): void {
-        LogMng.error(`GameScene -> ${aMsg}`, aData);
-    }
-
     private initObjects() {
         
         let light = new THREE.DirectionalLight(0xffffff, 0.5);
         light.position.set(1, 1, 1).setScalar(100);
-        this.scene.add(light, new THREE.AmbientLight(0xffffff, 0.5));
+        this._scene.add(light, new THREE.AmbientLight(0xffffff, 0.5));
 
         // objects
         let glowMagenta = new THREE.MeshBasicMaterial({
@@ -61,19 +68,19 @@ export class GameScene extends BasicScene {
             new THREE.SphereGeometry(1.5, 20, 20),
             glowMagenta.clone()
         );
-        this.scene.add(glowingSphere);
+        this._scene.add(glowingSphere);
 
         let glowingSphere2 = new THREE.Mesh(
             new THREE.IcosahedronGeometry(1.5, 2),
             glowAqua
         );
-        this.scene.add(glowingSphere2);
+        this._scene.add(glowingSphere2);
 
         let sphere = new THREE.Mesh(
             new THREE.SphereGeometry(1.5),
             new THREE.MeshLambertMaterial({ color: new THREE.Color(1, 0.5, 0.1) })
         );
-        this.scene.add(sphere);
+        this._scene.add(sphere);
 
         [sphere, glowingSphere, glowingSphere2].forEach((s, i) => {
             let a = (i * Math.PI * 2) / 3;
@@ -119,24 +126,24 @@ export class GameScene extends BasicScene {
         stopAngleBot?: number
     }) {
 
-        if (this.orbitControl) return;
+        if (this._orbitControl) return;
         let domElement = aParams.domElement;
-        this.orbitControl = new OrbitControls(aParams.camera, domElement);
-        this.orbitControl.enabled = aParams.enabled;
-        this.orbitControl.rotateSpeed = .5;
-        this.orbitControl.enableDamping = true;
-        this.orbitControl.dampingFactor = .9;
-        this.orbitControl.zoomSpeed = aParams.zoomSpeed || 1;
-        this.orbitControl.enablePan = aParams.enablePan == true;
-        this.orbitControl.minDistance = aParams.minDist || 1;
-        this.orbitControl.maxDistance = aParams.maxDist || 100;
-        this.orbitControl.minPolarAngle = MyMath.toRadian(aParams.stopAngleTop || 0);
-        this.orbitControl.maxPolarAngle = MyMath.toRadian(aParams.stopAngleBot || 0);
-        this.orbitControl.autoRotateSpeed = 0.05;
-        this.orbitControl.autoRotate = true;
+        this._orbitControl = new OrbitControls(aParams.camera, domElement);
+        this._orbitControl.enabled = aParams.enabled;
+        this._orbitControl.rotateSpeed = .5;
+        this._orbitControl.enableDamping = true;
+        this._orbitControl.dampingFactor = .9;
+        this._orbitControl.zoomSpeed = aParams.zoomSpeed || 1;
+        this._orbitControl.enablePan = aParams.enablePan == true;
+        this._orbitControl.minDistance = aParams.minDist || 1;
+        this._orbitControl.maxDistance = aParams.maxDist || 100;
+        this._orbitControl.minPolarAngle = MyMath.toRadian(aParams.stopAngleTop || 0);
+        this._orbitControl.maxPolarAngle = MyMath.toRadian(aParams.stopAngleBot || 0);
+        this._orbitControl.autoRotateSpeed = 0.05;
+        this._orbitControl.autoRotate = true;
 
-        this.orbitControl.target = new THREE.Vector3();
-        this.orbitControl.update();
+        this._orbitControl.target = new THREE.Vector3();
+        this._orbitControl.update();
         // this.orbitControl.addEventListener('change', () => {
         // });
         // this.orbitControl.addEventListener('end', () => {
@@ -146,7 +153,11 @@ export class GameScene extends BasicScene {
 
     private initDebug() {
         let axHeler = new THREE.AxesHelper(10);
-        this.scene.add(axHeler);
+        this._scene.add(axHeler);
+    }
+
+    protected onFinit() {
+
     }
     
     update(dt: number) {

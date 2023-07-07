@@ -8,7 +8,7 @@ import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPa
 import { ILogger } from "../interfaces/ILogger";
 import { LogMng } from "../../utils/LogMng";
 
-type AAType = 'NONE' | 'FXAA' | 'SMAA';
+export type AAType = 'NONE' | 'FXAA' | 'SMAA';
 
 type Passes = {
     composer?: EffectComposer;
@@ -186,6 +186,11 @@ export class Render implements ILogger {
             this._camera.aspect = w / h;
             this._camera.updateProjectionMatrix();
         }
+
+    }
+
+    free() {
+        // TODO:
 
     }
 

@@ -27,6 +27,10 @@ export class SceneMng implements ILogger {
     }
 
     private onSceneStart(aSender: BasicScene, aSceneName, aData?: any) {
+        if (aSender != this._currScene) {
+            this.logDebug(`onSceneStart: aSender != this._currScene`);
+            return;
+        }
         if (this._currScene?.name == aSceneName) {
             this.logDebug(`onSceneStart: currScene.name == aSceneName (${aSceneName})`);
             return;
@@ -44,10 +48,6 @@ export class SceneMng implements ILogger {
         return null;
     }
 
-    onWindowResize() {
-        this._currScene.onWindowResize();
-    }
-
     startScene(aName: string, aData?: any) {
         if (this._currScene?.name == aName) {
             this.logWarn(`Scene ${aName} already started`);
@@ -62,7 +62,10 @@ export class SceneMng implements ILogger {
         }
         newScene.init(aData);
         this._currScene = newScene;
-        // this._currScene.onSceneStart.addOnce(this.startScene, this);
+    }
+
+    onWindowResize() {
+        this._currScene.onWindowResize();
     }
 
     update(dt: number) {

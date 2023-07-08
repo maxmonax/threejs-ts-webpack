@@ -22,12 +22,6 @@ export enum ThreeLoaderFileType {
     gzip = 'gzip'
 };
 
-enum AliasPreference {
-    texture = 't_',
-    model = 'm_',
-    json = 'json_'
-};
-
 type LoaderParams = {
     retryCount?: number;
     textureMapping?: THREE.Mapping;

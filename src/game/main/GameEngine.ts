@@ -1,8 +1,6 @@
 import * as THREE from "three";
 import { ILogger } from "../interfaces/ILogger";
 import { LogMng } from "../../utils/LogMng";
-import { BootScene } from "./BootScene";
-import { PreloaderScene } from "./PreloaderScene";
 import { SceneMng } from "./SceneMng";
 import { Settings } from "../data/Settings";
 import { FrontEvents } from "../events/FrontEvents";
@@ -23,20 +21,14 @@ export class GameEngine implements ILogger {
     private _clock: THREE.Clock;
 
     constructor(aParams: GameParams) {
-
         this._params = aParams;
-
         Config.assetsPath = this._params.assetsPath;
+        this._clock = new THREE.Clock();
 
         this.initDebugMode();
-        this.initScenes(this._params.scenes);
-        // this.initRenderer(this._params.canvasParent);
-        // this.startPreloader(aParams.assetsPath);
         this.initEvents();
-
-        this._clock = new THREE.Clock();
+        this.initScenes(this._params.scenes);
         this.animate();
-
     }
 
     logDebug(aMsg: string, aData?: any): void {
@@ -75,18 +67,21 @@ export class GameEngine implements ILogger {
         FrontEvents.onWindowResizeSignal.add(this.onWindowResize, this);
     }
 
-    private onWindowResize() {
-        // if (this._gameScene) this._gameScene.onWindowResize();
-        this._sceneMng.onWindowResize();
-    }
-
     private initScenes(aScenes: BasicScene[]) {
         this._sceneMng = new SceneMng({
             scenes: aScenes
         });
+        // start first scene in list
         this._sceneMng.startScene(this._params.scenes[0].name);
     }
 
+    private onWindowResize() {
+        this._sceneMng.onWindowResize();
+    }
+
+    /**
+     * Main cycle
+     */
     private animate() {
         let dt = this._clock.getDelta();
 

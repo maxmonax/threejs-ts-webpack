@@ -1,11 +1,11 @@
 import * as THREE from "three";
 import { ILogger } from "../interfaces/ILogger";
 import { LogMng } from "../../utils/LogMng";
-import { SceneMng } from "./SceneMng";
+import { SceneMng } from "../scenes/SceneMng";
 import { Settings } from "../data/Settings";
 import { FrontEvents } from "../events/FrontEvents";
 import { DebugGui } from "../debug/DebugGui";
-import { BasicScene } from "./BasicScene";
+import { BasicScene } from "../scenes/BasicScene";
 import { Config } from "../data/Config";
 
 type GameParams = {

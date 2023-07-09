@@ -3,9 +3,9 @@ import './html/css/loader.css';
 import { GameEngine } from './game/main/GameEngine';
 import { FrontEvents } from './game/events/FrontEvents';
 import { Settings } from './game/data/Settings';
-import { DemoScene } from './game/main/DemoScene';
-import { BootScene } from './game/main/BootScene';
-import { PreloaderScene } from './game/main/PreloaderScene';
+import { DemoScene } from './game/scenes/DemoScene';
+import { BootScene } from './game/scenes/BootScene';
+import { PreloaderScene } from './game/scenes/PreloaderScene';
 
 window.addEventListener('load', () => {
     Settings.render.canvasParent = document.getElementById('game');

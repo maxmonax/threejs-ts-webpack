@@ -7,7 +7,7 @@ import { MyMath } from "../../utils/MyMath";
 import { BasicScene } from "./BasicScene";
 import { DebugGui } from "../debug/DebugGui";
 import { Settings } from "../data/Settings";
-import { SceneNames } from "../scenes/SceneTypes";
+import { SceneNames } from "./SceneTypes";
 
 export class DemoScene extends BasicScene {
     private _orbitControl: OrbitControls;

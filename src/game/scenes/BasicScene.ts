@@ -2,7 +2,7 @@ import * as THREE from "three";
 import { ILogger } from "../interfaces/ILogger";
 import { IUpdatable } from "../interfaces/IUpdatable";
 import { LogMng } from "../../utils/LogMng";
-import { Render } from "./Render";
+import { Render } from "../main/Render";
 import { Settings } from "../data/Settings";
 import { Signal } from "../../utils/events/Signal";
 

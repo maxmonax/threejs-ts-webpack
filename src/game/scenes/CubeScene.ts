@@ -21,13 +21,13 @@ export class CubeScene extends BasicScene {
     }
 
     logDebug(aMsg: string, aData?: any): void {
-        LogMng.debug(`GameScene: ${aMsg}`, aData);
+        LogMng.debug(`CubeScene: ${aMsg}`, aData);
     }
     logWarn(aMsg: string, aData?: any): void {
-        LogMng.warn(`GameScene: ${aMsg}`, aData);
+        LogMng.warn(`CubeScene: ${aMsg}`, aData);
     }
     logError(aMsg: string, aData?: any): void {
-        LogMng.error(`GameScene: ${aMsg}`, aData);
+        LogMng.error(`CubeScene: ${aMsg}`, aData);
     }
 
     protected onInit() {

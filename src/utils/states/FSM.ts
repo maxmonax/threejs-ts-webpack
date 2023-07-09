@@ -27,7 +27,7 @@ export class FSM {
     addState(aName: string, aContext?: any, aEnter?: EnterFunction, aUpdate?: UpdateFunction, aExit?: Function): FSM {
 
         if (this.stateList.has(aName)) {
-            LogMng.warn('FSM -> Trying to add an already existing state ' + aName);
+            LogMng.warn('FSM: Trying to add an already existing state ' + aName);
             return;
         }
 
@@ -46,7 +46,7 @@ export class FSM {
     startState(aName: string, aUserData: any = null) {
 
         if (!this.stateList.has(aName)) {
-            LogMng.warn(`FSM -> Tried to start an uninitialized state ${aName}`);
+            LogMng.warn(`FSM: Tried to start an uninitialized state ${aName}`);
             return;
         }
 

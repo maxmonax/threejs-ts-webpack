@@ -196,8 +196,8 @@ export class InputMng {
 
         }
         else {
-            LogMng.warn(`InputMng => undefined input DOM element = ${this.params.inputDomElement}`);
-            console.log('InputMng => init params:', this.params);
+            LogMng.warn(`InputMng: undefined input DOM element = ${this.params.inputDomElement}`);
+            console.log('init params:', this.params);
         }
 
     }

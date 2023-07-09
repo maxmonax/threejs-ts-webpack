@@ -2,9 +2,10 @@ import * as THREE from "three";
 import { ILogger } from "../interfaces/ILogger";
 import { IUpdatable } from "../interfaces/IUpdatable";
 import { LogMng } from "../../utils/LogMng";
-import { Render } from "../main/Render";
+import { Renderer } from "../renderers/Renderer";
 import { Settings } from "../data/Settings";
 import { Signal } from "../../utils/events/Signal";
+import { SimpleRenderer } from "../renderers/SimpleRenderer";
 
 type InitParams = {
     initRender?: boolean,
@@ -15,7 +16,7 @@ type InitParams = {
 export class BasicScene implements ILogger, IUpdatable {
     private _name: string;
     private _params: InitParams;
-    protected _render: Render;
+    protected _render: Renderer;
     protected _scene: THREE.Scene;
     protected _camera: THREE.Camera;
 
@@ -41,8 +42,7 @@ export class BasicScene implements ILogger, IUpdatable {
     }
 
     protected initRenderer() {
-        this._render = new Render({
-            aaType: Settings.render.aaType,
+        this._render = new SimpleRenderer({
             bgColor: Settings.render.bgColor,
             domCanvasParent: Settings.render.canvasParent
         });

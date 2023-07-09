@@ -1,6 +1,6 @@
 import './html/css/main.css';
 import './html/css/loader.css';
-import { GameEngine } from './game/main/GameEngine';
+import { GameEngine } from './game/GameEngine';
 import { FrontEvents } from './game/events/FrontEvents';
 import { Settings } from './game/data/Settings';
 import { SphereScene } from './game/scenes/SphereScene';

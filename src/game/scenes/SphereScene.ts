@@ -8,6 +8,7 @@ import { BasicScene } from "./BasicScene";
 import { DebugGui } from "../debug/DebugGui";
 import { Settings } from "../data/Settings";
 import { SceneNames } from "./SceneTypes";
+import { ComposerRenderer } from "../renderers/ComposerRenderer";
 
 export class SphereScene extends BasicScene {
     private _orbitControl: OrbitControls;
@@ -20,14 +21,22 @@ export class SphereScene extends BasicScene {
         });
     }
 
+    protected initRenderer() {
+        this._render = new ComposerRenderer({
+            aaType: 'FXAA',
+            bgColor: Settings.render.bgColor,
+            domCanvasParent: Settings.render.canvasParent
+        });
+    }
+
     logDebug(aMsg: string, aData?: any): void {
-        LogMng.debug(`GameScene: ${aMsg}`, aData);
+        LogMng.debug(`SphereScene: ${aMsg}`, aData);
     }
     logWarn(aMsg: string, aData?: any): void {
-        LogMng.warn(`GameScene: ${aMsg}`, aData);
+        LogMng.warn(`SphereScene: ${aMsg}`, aData);
     }
     logError(aMsg: string, aData?: any): void {
-        LogMng.error(`GameScene: ${aMsg}`, aData);
+        LogMng.error(`SphereScene: ${aMsg}`, aData);
     }
 
     protected onInit() {

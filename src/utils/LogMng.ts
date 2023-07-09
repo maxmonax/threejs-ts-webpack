@@ -78,7 +78,7 @@ export class LogMng {
                 css = 'background: #ADADAD; color: #fff; padding: 1px 4px';
         }
 
-        aData ?
+        aData != null ?
             console.log("%c%s", css, aLevel, aMsg, aData) :
             console.log("%c%s", css, aLevel, aMsg);
 

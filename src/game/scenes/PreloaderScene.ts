@@ -16,11 +16,21 @@ export class PreloaderScene extends BasicScene {
         super(SceneNames.PreloaderScene);
     }
 
+    logDebug(aMsg: string, aData?: any): void {
+        LogMng.debug(`PreloaderScene: ${aMsg}`, aData);
+    }
+    logWarn(aMsg: string, aData?: any): void {
+        LogMng.warn(`PreloaderScene: ${aMsg}`, aData);
+    }
+    logError(aMsg: string, aData?: any): void {
+        LogMng.error(`PreloaderScene: ${aMsg}`, aData);
+    }
+
     onInit() {
         this._assetsPath = Config.assetsPath;
 
         if (this._isDefaultLoaded || this._isLoadingInProcess) {
-            LogMng.warn(``);
+            this.logWarn(`loading process already started...`);
             return;
         }
         this._isDefaultLoaded = true;

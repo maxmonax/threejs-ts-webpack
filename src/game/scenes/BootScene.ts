@@ -1,7 +1,6 @@
 import { LogMng } from "../../utils/LogMng";
 import { Settings } from '../data/Settings';
 import { MyUtils } from '../../utils/MyUtils';
-import { AAType } from "../main/Render";
 import { BasicScene } from "./BasicScene";
 import { SceneNames } from "./SceneTypes";
 
@@ -12,13 +11,13 @@ export class BootScene extends BasicScene {
     }
 
     logDebug(aMsg: string, aData?: any): void {
-        LogMng.debug(`GameBoot: ${aMsg}`, aData);
+        LogMng.debug(`BootScene: ${aMsg}`, aData);
     }
     logWarn(aMsg: string, aData?: any): void {
-        LogMng.warn(`GameBoot: ${aMsg}`, aData);
+        LogMng.warn(`BootScene: ${aMsg}`, aData);
     }
     logError(aMsg: string, aData?: any): void {
-        LogMng.error(`GameBoot: ${aMsg}`, aData);
+        LogMng.error(`BootScene: ${aMsg}`, aData);
     }
 
     onInit() {
@@ -34,8 +33,8 @@ export class BootScene extends BasicScene {
                 // anti aliasing
                 keys: ['aa'],
                 onReadHandler: (aValue: string) => {
-                    Settings.render.aaType = aValue as AAType || 'NONE';
-                    LogMng.debug('Settings: aaType = ' + Settings.render.aaType);
+                    // Settings.render.aaType = aValue as AAType || 'NONE';
+                    // this.logDebug('Settings: aaType = ' + Settings.render.aaType);
                 }
             }
         ];

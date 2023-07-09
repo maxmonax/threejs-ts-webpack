@@ -1,13 +1,13 @@
 import * as THREE from "three";
-import { ILogger } from "../interfaces/ILogger";
-import { LogMng } from "../../utils/LogMng";
-import { SceneMng } from "../scenes/SceneMng";
-import { Settings } from "../data/Settings";
-import { FrontEvents } from "../events/FrontEvents";
-import { DebugGui } from "../debug/DebugGui";
-import { BasicScene } from "../scenes/BasicScene";
-import { Config } from "../data/Config";
-import { SceneNames } from "../scenes/SceneTypes";
+import { ILogger } from "./interfaces/ILogger";
+import { LogMng } from "../utils/LogMng";
+import { SceneMng } from "./scenes/SceneMng";
+import { Settings } from "./data/Settings";
+import { FrontEvents } from "./events/FrontEvents";
+import { DebugGui } from "./debug/DebugGui";
+import { BasicScene } from "./scenes/BasicScene";
+import { Config } from "./data/Config";
+import { SceneNames } from "./scenes/SceneTypes";
 
 type GameParams = {
     assetsPath: string;
@@ -35,13 +35,13 @@ export class GameEngine implements ILogger {
     }
 
     logDebug(aMsg: string, aData?: any): void {
-        LogMng.debug(`Game: ${aMsg}`, aData);
+        LogMng.debug(`GameEngine: ${aMsg}`, aData);
     }
     logWarn(aMsg: string, aData?: any): void {
-        LogMng.warn(`Game: ${aMsg}`, aData);
+        LogMng.warn(`GameEngine: ${aMsg}`, aData);
     }
     logError(aMsg: string, aData?: any): void {
-        LogMng.error(`Game: ${aMsg}`, aData);
+        LogMng.error(`GameEngine: ${aMsg}`, aData);
     }
 
     private initLogging() {

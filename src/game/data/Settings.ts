@@ -1,5 +1,4 @@
-﻿import { AAType } from "../main/Render";
-
+﻿
 /**
  * Global parameters
  */
@@ -10,8 +9,7 @@ export class Settings {
 
     static render = {
         canvasParent: null as HTMLElement,
-        bgColor: 0x0,
-        aaType: 'FXAA' as AAType
+        bgColor: 0x0
     }
 
 };

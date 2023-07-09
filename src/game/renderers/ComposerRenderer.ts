@@ -5,8 +5,7 @@ import { ShaderPass } from "three/examples/jsm/postprocessing/ShaderPass";
 import { SMAAPass } from "three/examples/jsm/postprocessing/SMAAPass";
 import { FXAAShader } from "three/examples/jsm/shaders/FXAAShader";
 import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPass";
-import { ILogger } from "../interfaces/ILogger";
-import { LogMng } from "../../utils/LogMng";
+import { Renderer, RendererParams } from "./Renderer";
 
 export type AAType = 'NONE' | 'FXAA' | 'SMAA';
 
@@ -15,42 +14,34 @@ type Passes = {
     renderPass: RenderPass;
     fxaaPass?: ShaderPass;
     smaaPass?: SMAAPass;
-};
+}
 
-export class Render implements ILogger {
+type ComposerRendererParams = RendererParams & {
+    aaType: AAType
+}
 
-    private _domCanvasParent: HTMLElement;
-    private _scene: THREE.Scene;
-    private _camera: THREE.Camera;
+export class ComposerRenderer extends Renderer {
+
     private _aaType: AAType;
-    private _renderer: THREE.WebGLRenderer;
-    private _renderPixelRatio: number;
     private _passes: Passes;
 
-    constructor(aParams: {
-        bgColor: number,
-        domCanvasParent: HTMLElement,
-        aaType: string,
-        scene?: THREE.Scene,
-        camera?: THREE.Camera
-    }) {
-
-        this._domCanvasParent = aParams.domCanvasParent;
-        let w = this._domCanvasParent.clientWidth;
-        let h = this._domCanvasParent.clientHeight;
-
+    constructor(aParams: ComposerRendererParams) {
+        super(aParams);
         this._aaType = aParams.aaType as AAType;
-        if (aParams.scene) this._scene = aParams.scene;
-        if (aParams.camera) this._camera = aParams.camera;
+        this.initRender();
+        this.initPasses();
+    }
 
-        const clearColor = new THREE.Color(aParams.bgColor);
+    protected initRender() {
+        const w = this._domCanvasParent.clientWidth;
+        const h = this._domCanvasParent.clientHeight;
 
         this._renderer = new THREE.WebGLRenderer({
             antialias: false
         });
         this._renderer.setPixelRatio(Math.min(2, window.devicePixelRatio));
         this._renderer.setSize(w, h);
-        this._renderer.setClearColor(clearColor);
+        this._renderer.setClearColor(this._bgColor);
         this._renderPixelRatio = this._renderer.getPixelRatio();
         this._renderer.shadowMap.enabled = true;
         this._renderer.shadowMap.type = THREE.PCFSoftShadowMap; // default THREE.PCFShadowMap
@@ -60,14 +51,21 @@ export class Render implements ILogger {
         this._renderer.toneMappingExposure = 0.8;
 
         this._domCanvasParent.appendChild(this._renderer.domElement);
+    }
 
-        this.initPasses();
+    public set scene(v: THREE.Scene) {
+        this._scene = v;
+        if (this._passes && this._passes.renderPass) this._passes.renderPass.scene = this._scene;
+    }
+
+    public set camera(v: THREE.Camera) {
+        this._camera = v;
+        if (this._passes && this._passes.renderPass) this._passes.renderPass.camera = this._camera;
     }
 
     private initPasses() {
-
-        const w = innerWidth;
-        const h = innerHeight;
+        const w = this._domCanvasParent.clientWidth;
+        const h = this._domCanvasParent.clientHeight;
 
         this._passes = {
             renderPass: new RenderPass(this._scene, this._camera)
@@ -92,7 +90,7 @@ export class Render implements ILogger {
                 break;
 
             default:
-                LogMng.warn(`GameEngine -> Unknown anti-aliasing type: ${this._aaType}`);
+                this.logWarn(`initPasses(): Unknown anti-aliasing type: ${this._aaType}`);
                 break;
         }
 
@@ -138,34 +136,6 @@ export class Render implements ILogger {
         //     });
         // }
 
-    }
-
-    public set scene(v: THREE.Scene) {
-        this._scene = v;
-        this._passes.renderPass.scene = this._scene;
-    }
-
-    public get scene(): THREE.Scene {
-        return this._scene;
-    }
-
-    public set camera(v: THREE.Camera) {
-        this._camera = v;
-        this._passes.renderPass.camera = this._camera;
-    }
-
-    public get camera(): THREE.Camera {
-        return this._camera;
-    }
-
-    logDebug(aMsg: string, aData?: any): void {
-        LogMng.debug(`Render -> ${aMsg}`, aData);
-    }
-    logWarn(aMsg: string, aData?: any): void {
-        LogMng.warn(`Render -> ${aMsg}`, aData);
-    }
-    logError(aMsg: string, aData?: any): void {
-        LogMng.error(`Render -> ${aMsg}`, aData);
     }
 
     onWindowResize(w: number, h: number) {

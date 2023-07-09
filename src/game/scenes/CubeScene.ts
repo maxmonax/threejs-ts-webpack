@@ -9,11 +9,11 @@ import { DebugGui } from "../debug/DebugGui";
 import { Settings } from "../data/Settings";
 import { SceneNames } from "./SceneTypes";
 
-export class DemoScene extends BasicScene {
+export class CubeScene extends BasicScene {
     private _orbitControl: OrbitControls;
     
     constructor() {
-        super(SceneNames.DemoScene, {
+        super(SceneNames.CubeScene, {
             initRender: true,
             initScene: true,
             initCamera: true
@@ -65,19 +65,19 @@ export class DemoScene extends BasicScene {
         });
 
         let glowingSphere = new THREE.Mesh(
-            new THREE.SphereGeometry(1.5, 20, 20),
+            new THREE.BoxGeometry(2, 2, 2),
             glowMagenta.clone()
         );
         this._scene.add(glowingSphere);
 
         let glowingSphere2 = new THREE.Mesh(
-            new THREE.IcosahedronGeometry(1.5, 2),
+            new THREE.BoxGeometry(2, 2, 2),
             glowAqua
         );
         this._scene.add(glowingSphere2);
 
         let sphere = new THREE.Mesh(
-            new THREE.SphereGeometry(1.5),
+            new THREE.BoxGeometry(2, 2, 2),
             new THREE.MeshLambertMaterial({ color: new THREE.Color(1, 0.5, 0.1) })
         );
         this._scene.add(sphere);
@@ -90,18 +90,19 @@ export class DemoScene extends BasicScene {
         });
 
         // debug gui
-        let gui = DebugGui.getInstance().gui;
+        let debugGui = DebugGui.getInstance();
+        let gui = debugGui.gui;
 
         const guiData = {
             colorFactor: 8
         };
 
-        if (gui) {
-            gui.add(guiData, 'colorFactor', 1, 20, 1).onChange((v) => {
-                glowingSphere.material.color.setRGB(1, 0, 1).multiplyScalar(v);
-                glowingSphere2.material.color.setRGB(0, 1, 1).multiplyScalar(v);
-            });
-        }
+        let colorFactorGuiController = gui.add(guiData, 'colorFactor', 1, 20, 1).onChange((v) => {
+            glowingSphere.material.color.setRGB(1, 0, 1).multiplyScalar(v);
+            glowingSphere2.material.color.setRGB(0, 1, 1).multiplyScalar(v);
+        });
+
+        debugGui.addController('colorFactor', colorFactorGuiController);
 
     }
 
@@ -125,7 +126,6 @@ export class DemoScene extends BasicScene {
         stopAngleTop?: number,
         stopAngleBot?: number
     }) {
-
         if (this._orbitControl) return;
         let domElement = aParams.domElement;
         this._orbitControl = new OrbitControls(aParams.camera, domElement);
@@ -144,11 +144,6 @@ export class DemoScene extends BasicScene {
 
         this._orbitControl.target = new THREE.Vector3();
         this._orbitControl.update();
-        // this.orbitControl.addEventListener('change', () => {
-        // });
-        // this.orbitControl.addEventListener('end', () => {
-        // });
-
     }
 
     private initDebug() {
@@ -156,10 +151,20 @@ export class DemoScene extends BasicScene {
         this._scene.add(axHeler);
     }
 
-    protected onFinit() {
-
+    private finitOrbitControl() {
+        if (!this._orbitControl) return;
+        this._orbitControl.enabled = false;
+        this._orbitControl.dispose();
+        this._orbitControl = null;
     }
-    
+
+    protected onFinit() {
+        this.finitOrbitControl();
+        // debug gui
+        let debugGui = DebugGui.getInstance();
+        debugGui.removeController('colorFactor');
+    }
+
     update(dt: number) {
         
     }

@@ -7,6 +7,7 @@ import { FrontEvents } from "../events/FrontEvents";
 import { DebugGui } from "../debug/DebugGui";
 import { BasicScene } from "../scenes/BasicScene";
 import { Config } from "../data/Config";
+import { SceneNames } from "../scenes/SceneTypes";
 
 type GameParams = {
     assetsPath: string;
@@ -25,7 +26,9 @@ export class GameEngine implements ILogger {
         Config.assetsPath = this._params.assetsPath;
         this._clock = new THREE.Clock();
 
-        this.initDebugMode();
+        this.initLogging();
+        this.initStats();
+        this.initDebugGui();
         this.initEvents();
         this.initScenes(this._params.scenes);
         this.animate();
@@ -41,14 +44,12 @@ export class GameEngine implements ILogger {
         LogMng.error(`Game: ${aMsg}`, aData);
     }
 
-    private initDebugMode() {
+    private initLogging() {
         // init debug mode
         Settings.isDebugMode = window.location.hash === '#debug';
         // LogMng settings
         if (!Settings.isDebugMode) LogMng.setMode(LogMng.MODE_RELEASE);
         LogMng.system('log mode: ' + LogMng.getMode());
-        this.initStats();
-        this.initDebugGui();
     }
 
     private initStats() {
@@ -60,7 +61,17 @@ export class GameEngine implements ILogger {
     }
 
     private initDebugGui() {
-        if (Settings.isDebugMode) DebugGui.getInstance();
+        let DATA = {
+            spheres: () => {
+                this._sceneMng.startScene(SceneNames.SphereScene);
+            },
+            cubes: () => {
+                this._sceneMng.startScene(SceneNames.CubeScene);
+            }
+        }
+        let gui = DebugGui.getInstance().gui;
+        gui.add(DATA, 'spheres').name('Spheres Scene');
+        gui.add(DATA, 'cubes').name('Cubes Scene');
     }
 
     private initEvents() {

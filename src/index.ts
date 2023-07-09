@@ -3,9 +3,10 @@ import './html/css/loader.css';
 import { GameEngine } from './game/main/GameEngine';
 import { FrontEvents } from './game/events/FrontEvents';
 import { Settings } from './game/data/Settings';
-import { DemoScene } from './game/scenes/DemoScene';
+import { SphereScene } from './game/scenes/SphereScene';
 import { BootScene } from './game/scenes/BootScene';
 import { PreloaderScene } from './game/scenes/PreloaderScene';
+import { CubeScene } from './game/scenes/CubeScene';
 
 window.addEventListener('load', () => {
     Settings.render.canvasParent = document.getElementById('game');
@@ -14,7 +15,8 @@ window.addEventListener('load', () => {
         scenes: [
             new BootScene(),
             new PreloaderScene(),
-            new DemoScene()
+            new SphereScene(),
+            new CubeScene(),
         ]
     });
 }, false);

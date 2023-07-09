@@ -19,6 +19,7 @@ type Passes = {
 
 export class Render implements ILogger {
 
+    private _domCanvasParent: HTMLElement;
     private _scene: THREE.Scene;
     private _camera: THREE.Camera;
     private _aaType: AAType;
@@ -34,9 +35,9 @@ export class Render implements ILogger {
         camera?: THREE.Camera
     }) {
 
-        let domContainer = aParams.domCanvasParent;
-        let w = domContainer.clientWidth;
-        let h = domContainer.clientHeight;
+        this._domCanvasParent = aParams.domCanvasParent;
+        let w = this._domCanvasParent.clientWidth;
+        let h = this._domCanvasParent.clientHeight;
 
         this._aaType = aParams.aaType as AAType;
         if (aParams.scene) this._scene = aParams.scene;
@@ -58,11 +59,11 @@ export class Render implements ILogger {
         this._renderer.toneMapping = THREE.LinearToneMapping;
         this._renderer.toneMappingExposure = 0.8;
 
-        domContainer.appendChild(this._renderer.domElement);
+        this._domCanvasParent.appendChild(this._renderer.domElement);
 
         this.initPasses();
     }
-    
+
     private initPasses() {
 
         const w = innerWidth;
@@ -118,9 +119,7 @@ export class Render implements ILogger {
         });
 
         this._passes.composer = new EffectComposer(this._renderer, rt);
-
         this._passes.composer.setPixelRatio(1);
-
         this._passes.composer.addPass(this._passes.renderPass);
         this._passes.composer.addPass(bloomPass);
         if (aaPass) this._passes.composer.addPass(aaPass);
@@ -140,7 +139,7 @@ export class Render implements ILogger {
         // }
 
     }
-    
+
     public set scene(v: THREE.Scene) {
         this._scene = v;
         this._passes.renderPass.scene = this._scene;
@@ -149,7 +148,7 @@ export class Render implements ILogger {
     public get scene(): THREE.Scene {
         return this._scene;
     }
-    
+
     public set camera(v: THREE.Camera) {
         this._camera = v;
         this._passes.renderPass.camera = this._camera;
@@ -173,7 +172,7 @@ export class Render implements ILogger {
 
         this._renderer.setSize(w, h);
         this._passes.composer.setSize(w, h);
-        
+
         switch (this._aaType) {
             case 'FXAA':
                 this._passes.fxaaPass.material.uniforms['resolution'].value.x = 1 / (w * this._renderPixelRatio);
@@ -182,7 +181,6 @@ export class Render implements ILogger {
         }
 
         if (this._camera && this._camera instanceof THREE.PerspectiveCamera) {
-        // if (this._camera) {
             this._camera.aspect = w / h;
             this._camera.updateProjectionMatrix();
         }
@@ -190,8 +188,13 @@ export class Render implements ILogger {
     }
 
     free() {
-        // TODO:
-
+        this._domCanvasParent.removeChild(this._renderer.domElement);
+        this._domCanvasParent = null;
+        this._scene = null;
+        this._camera = null;
+        this._aaType = null;
+        this._renderer = null;
+        this._passes = null;
     }
 
     render() {

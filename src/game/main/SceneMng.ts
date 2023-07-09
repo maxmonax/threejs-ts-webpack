@@ -60,8 +60,8 @@ export class SceneMng implements ILogger {
             this.logError(`Scene ${aName} not found!`);
             return;
         }
-        newScene.init(aData);
         this._currScene = newScene;
+        newScene.init(aData);
     }
 
     onWindowResize() {

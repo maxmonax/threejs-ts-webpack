@@ -32,7 +32,7 @@ export class CubeScene extends BasicScene {
 
     protected onInit() {
         this.initObjects();
-        this.initInput(Settings.render.canvasParent);
+        this.initInputs();
         this.initOrbitControl({
             domElement: Settings.render.canvasParent,
             camera: this._camera,
@@ -49,7 +49,7 @@ export class CubeScene extends BasicScene {
     private initObjects() {
         
         let light = new THREE.DirectionalLight(0xffffff, 0.5);
-        light.position.set(1, 1, 1).setScalar(100);
+        light.position.set(1, 1, 1).multiplyScalar(100);
         this._scene.add(light, new THREE.AmbientLight(0xffffff, 0.5));
 
         // objects
@@ -106,12 +106,8 @@ export class CubeScene extends BasicScene {
 
     }
 
-    private initInput(aDomCanvasParent: HTMLElement) {
-        InputMng.getInstance({
-            inputDomElement: aDomCanvasParent,
-            desktop: DeviceInfo.getInstance().desktop,
-            isRightClickProcessing: false
-        });
+    private initInputs() {
+
     }
 
     private initOrbitControl(aParams: {

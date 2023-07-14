@@ -10,7 +10,7 @@ export class Config {
         /**
          * the ratio how many game units in the 1 meter
          */
-        METER_SIZE: 10
+        METER_SIZE: 1
     }
 
 };

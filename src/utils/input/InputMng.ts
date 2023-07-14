@@ -14,59 +14,80 @@ export class InputMng {
 
     isTouchDown = false;
 
-    currInputClientX = 0;
-    currInputClientY = 0;
+    /**
+     * Current client input position
+     */
+    clientX = 0;
+    clientY = 0;
 
-    inputDownClientX = 0;
-    inputDownClientY = 0;
+    /**
+     * Down client input position
+     */
+    downClientX = 0;
+    downClientY = 0;
 
-    inputUpClientX = 0;
-    inputUpClientY = 0;
+    /**
+     * Up client input position
+     */
+    upClientX = 0;
+    upClientY = 0;
 
-    normalInputPos = {
+    /**
+     * Normalized current input position
+     */
+    normalPos = {
         x: 0,
         y: 0
     };
 
-    normalInputDown = {
+    /**
+     * Normalized down input position
+     */
+    normalDown = {
         x: 0,
         y: 0
     };
 
-    normalUpDown = {
+    /**
+     * Normalized up input position
+     */
+    normalUp = {
         x: 0,
         y: 0
     };
 
+    /**
+     * Set of keys down
+     */
     keysDown = {};
 
     /**
-     * keyCode: string, key: string
+     * (keyCode: string, key: string)
      */
     onKeyDownSignal = new Signal();
 
     /**
-     * keyCode: string, key: string
+     * (keyCode: string, key: string)
      */
     onKeyUpSignal = new Signal();
 
     /**
-     * x, y
+     * (client_x, client_y)
      */
     onInputDownSignal = new Signal();
 
     /**
-     * x, y
+     * (client_x, client_y)
      */
     onInputUpSignal = new Signal();
 
     /**
-     * x, y
+     * (client_x, client_y)
      */
     onInputMoveSignal = new Signal();
 
     /**
-     * x, y
+     * (client_x, client_y)
      */
     onContextMenuSignal = new Signal();
     
@@ -99,17 +120,17 @@ export class InputMng {
 
                 // LogMng.debug(`mousemove: x: ${e.clientX}, y: ${e.clientY}`);
 
-                this.currInputClientX = e.clientX;
-                this.currInputClientY = e.clientY;
+                this.clientX = e.clientX;
+                this.clientY = e.clientY;
 
                 // for 3d
-                this.normalInputPos = {
+                this.normalPos = {
                     x: (e.clientX / dom.clientWidth) * 2 - 1,
                     y: -(e.clientY / dom.clientHeight) * 2 + 1
                 }
 
                 if (this.params.desktop) {
-                    this.onInputMoveSignal.dispatch(this.currInputClientX, this.currInputClientY);
+                    this.onInputMoveSignal.dispatch(this.clientX, this.clientY);
                 }
 
             }, true);
@@ -123,16 +144,16 @@ export class InputMng {
 
                 if (this.params.desktop && e.button != 0) return;
 
-                this.inputDownClientX = e.clientX;
-                this.inputDownClientY = e.clientY;
+                this.downClientX = e.clientX;
+                this.downClientY = e.clientY;
 
                 // for 3d
-                this.normalInputDown = {
+                this.normalDown = {
                     x: (e.clientX / dom.clientWidth) * 2 - 1,
                     y: -(e.clientY / dom.clientHeight) * 2 + 1
                 }
 
-                this.onInputDownSignal.dispatch(this.inputDownClientX, this.inputDownClientY);
+                this.onInputDownSignal.dispatch(this.downClientX, this.downClientY);
             }, true);
 
             dom.addEventListener("pointerup", (e: PointerEvent) => {
@@ -141,11 +162,11 @@ export class InputMng {
 
                 if (this.params.desktop && e.button != 0) return;
 
-                this.inputUpClientX = e.clientX;
-                this.inputUpClientY = e.clientY;
+                this.upClientX = e.clientX;
+                this.upClientY = e.clientY;
 
                 // for 3d
-                this.normalUpDown = {
+                this.normalUp = {
                     x: (e.clientX / dom.clientWidth) * 2 - 1,
                     y: -(e.clientY / dom.clientHeight) * 2 + 1
                 }
@@ -189,7 +210,7 @@ export class InputMng {
 
             if (this.params.desktop && aParams.isRightClickProcessing) {
                 window.oncontextmenu = () => {
-                    this.onContextMenuSignal.dispatch(this.currInputClientX, this.currInputClientY);
+                    this.onContextMenuSignal.dispatch(this.clientX, this.clientY);
                     return false; // cancel default menu
                 };
             }

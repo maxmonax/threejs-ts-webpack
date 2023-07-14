@@ -8,6 +8,8 @@ import { DebugGui } from "./debug/DebugGui";
 import { BasicScene } from "./scenes/BasicScene";
 import { Config } from "./data/Config";
 import { SceneNames } from "./scenes/SceneTypes";
+import { InputMng } from "../utils/input/InputMng";
+import { DeviceInfo } from "../utils/DeviceInfo";
 
 type GameParams = {
     assetsPath: string;
@@ -31,6 +33,7 @@ export class GameEngine implements ILogger {
         this.initDebugGui();
         this.initEvents();
         this.initScenes(this._params.scenes);
+        this.initInputs(Settings.render.canvasParent);
         this.animate();
     }
 
@@ -84,6 +87,14 @@ export class GameEngine implements ILogger {
         });
         // start first scene in list
         this._sceneMng.startScene(this._params.scenes[0].name);
+    }
+
+    private initInputs(aDomCanvasParent: HTMLElement) {
+        InputMng.getInstance({
+            inputDomElement: aDomCanvasParent,
+            desktop: DeviceInfo.getInstance().desktop,
+            isRightClickProcessing: false
+        });
     }
 
     private onWindowResize() {

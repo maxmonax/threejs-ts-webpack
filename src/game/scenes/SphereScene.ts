@@ -41,7 +41,6 @@ export class SphereScene extends BasicScene {
 
     protected onInit() {
         this.initObjects();
-        this.initInput(Settings.render.canvasParent);
         this.initOrbitControl({
             domElement: Settings.render.canvasParent,
             camera: this._camera,
@@ -51,6 +50,7 @@ export class SphereScene extends BasicScene {
             stopAngleTop: 10,
             stopAngleBot: 170
         });
+        this.initInputs();
         this.initDebug();
 
     }
@@ -58,7 +58,7 @@ export class SphereScene extends BasicScene {
     private initObjects() {
         
         let light = new THREE.DirectionalLight(0xffffff, 0.5);
-        light.position.set(1, 1, 1).setScalar(100);
+        light.position.set(1, 1, 1).multiplyScalar(100);
         this._scene.add(light, new THREE.AmbientLight(0xffffff, 0.5));
 
         // objects
@@ -115,14 +115,6 @@ export class SphereScene extends BasicScene {
 
     }
 
-    private initInput(aDomCanvasParent: HTMLElement) {
-        InputMng.getInstance({
-            inputDomElement: aDomCanvasParent,
-            desktop: DeviceInfo.getInstance().desktop,
-            isRightClickProcessing: false
-        });
-    }
-
     private initOrbitControl(aParams: {
         domElement: HTMLElement,
         camera: THREE.Camera,
@@ -154,10 +146,12 @@ export class SphereScene extends BasicScene {
 
         this._orbitControl.target = new THREE.Vector3();
         this._orbitControl.update();
-        // this.orbitControl.addEventListener('change', () => {
-        // });
-        // this.orbitControl.addEventListener('end', () => {
-        // });
+        // this.orbitControl.addEventListener('change', () => { });
+        // this.orbitControl.addEventListener('end', () => { });
+
+    }
+
+    private initInputs() {
 
     }
 
@@ -181,7 +175,7 @@ export class SphereScene extends BasicScene {
     }
     
     update(dt: number) {
-        
+        this._orbitControl.update();
     }
 
 }

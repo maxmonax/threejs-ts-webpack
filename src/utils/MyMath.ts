@@ -94,7 +94,7 @@ export class MyMath {
             mas[id2] = item;
         }
     }
-    
+
     /**
      * Function restricts a given value between an upper and lower bound.
      * @param x - target value
@@ -113,6 +113,20 @@ export class MyMath {
      */
     public static sat(x: number): number {
         return this.clamp(x, 0, 1);
+    }
+
+    /**
+     * Re-maps a number from one range to another.
+     * Example: map(25, 0, 100, 0, 1000) = 250 the number 25 is converted from a value in the range of 0 to 100 into a value that ranges from the left edge of the window (0) to the right edge (width).
+     * @param value - value
+     * @param min1 
+     * @param max1 
+     * @param min2 
+     * @param max2 
+     */
+    public static map(value: number, min1: number, max1: number, min2: number, max2: number): number {
+        let p = (value - min1) / (max1 - min1);
+        return p * (max2 - min2);
     }
 
     /**
@@ -234,6 +248,6 @@ export class MyMath {
         while (--aValue) res *= aValue;
         return res;
     };
-    
+
 
 }

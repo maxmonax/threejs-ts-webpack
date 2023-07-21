@@ -9,6 +9,7 @@ import { DebugGui } from "../debug/DebugGui";
 import { Settings } from "../data/Settings";
 import { SceneNames } from "./SceneTypes";
 import { ComposerRenderer } from "../renderers/ComposerRenderer";
+import { Config } from "../data/Config";
 
 export class SphereScene extends BasicScene {
     private _orbitControl: OrbitControls;
@@ -152,7 +153,17 @@ export class SphereScene extends BasicScene {
     }
 
     private initInputs() {
-
+        this.initCameraController({
+            domElement: Settings.render.canvasParent,
+            camera: this._camera,
+            orbitController: {
+                minDist: 1,
+                maxDist: Config.game.meterSize * 100,
+                stopAngleTop: 10,
+                stopAngleBot: 170
+            }
+        });
+        this._cameraController.enableOrbitController();
     }
 
     private initDebug() {

@@ -163,6 +163,13 @@ export class MyMath {
         let dy = y2 - y1;
         return Math.sqrt(dx * dx + dy * dy);
     }
+    
+    public static getVec3Length(x1: number, y1: number, z1: number, x2: number, y2: number, z2: number): number {
+        let dx = x2 - x1;
+        let dy = y2 - y1;
+        let dz = z2 - z1;
+        return Math.sqrt(dx * dx + dy * dy + dz * dz);
+    }
 
     /**
      * Find the angle between 2 vectors (x1, y1) -> (x2, y2) via Math.atan2 function.

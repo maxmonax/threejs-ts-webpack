@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { ILogger } from "../interfaces/ILogger";
 import { IUpdatable } from "../interfaces/IUpdatable";
 import { LogMng } from "../../utils/LogMng";
@@ -6,6 +7,7 @@ import { Renderer } from "../renderers/Renderer";
 import { Settings } from "../data/Settings";
 import { Signal } from "../../utils/events/Signal";
 import { SimpleRenderer } from "../renderers/SimpleRenderer";
+import { CameraController, CameraControllerParams } from "../camera/CameraController";
 
 type InitParams = {
     initRender?: boolean,
@@ -19,6 +21,7 @@ export class BasicScene implements ILogger, IUpdatable {
     protected _render: Renderer;
     protected _scene: THREE.Scene;
     protected _camera: THREE.Camera;
+    protected _cameraController: CameraController;
 
     onSceneStart = new Signal();
 
@@ -63,7 +66,7 @@ export class BasicScene implements ILogger, IUpdatable {
         this._render.camera = this._camera;
     }
 
-    protected finitCamera() {
+    protected freeCamera() {
         if (this._camera) {
             if (this._scene) this._scene.remove(this._camera);
             this._camera = null;
@@ -71,11 +74,11 @@ export class BasicScene implements ILogger, IUpdatable {
         }
     }
 
-    protected finitScene() {
+    protected freeScene() {
         if (this._render) this._render.scene = null;
     }
 
-    protected finitRenderer() {
+    protected freeRenderer() {
         if (this._render) this._render.free();
         this._render = null;
     }
@@ -83,7 +86,7 @@ export class BasicScene implements ILogger, IUpdatable {
     public get name(): string {
         return this._name;
     }
-    
+
     init(aData?: any) {
         if (this._params?.initRender) this.initRenderer();
         if (this._params?.initScene) this.initScene();
@@ -91,27 +94,32 @@ export class BasicScene implements ILogger, IUpdatable {
         this.onInit(aData);
     }
 
-    finit() {
-        this.onFinit();
-        if (this._params?.initCamera) this.finitCamera();
-        if (this._params?.initScene) this.finitScene();
-        if (this._params?.initRender) this.finitRenderer();
+    free() {
+        this.onFree();
+        if (this._cameraController) this._cameraController.free();
+        if (this._params?.initCamera) this.freeCamera();
+        if (this._params?.initScene) this.freeScene();
+        if (this._params?.initRender) this.freeRenderer();
+    }
+
+    initCameraController(aParams: CameraControllerParams) {
+        this._cameraController = new CameraController(aParams);
     }
 
     protected onInit(aData?: any) {
         // for override
     }
 
-    protected onFinit() {
+    protected onFree() {
         // for override
     }
-    
+
     onWindowResize() {
         this._render?.onWindowResize(innerWidth, innerHeight);
     }
 
     update(dt: number) {
-
+        this._cameraController?.update(dt);
     }
 
     render() {

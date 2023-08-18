@@ -53,9 +53,13 @@ export class ColorUtils {
         return "#" + this.byteToHexStr(r) + this.byteToHexStr(g) + this.byteToHexStr(b);
     }
 
-    // public static rgbToHex(r: number, g: number, b: number): number {
-    //     return r * 10000 + g * 100 + b;
-    // }
+    /**
+     * hex (0xadadad) to web color string (#adadad)
+     */
+    public static hexToHexStr(aHex: number): string {
+        let rgb = this.hexToRGB(aHex);
+        return this.rgbToHexStr(rgb.r, rgb.g, rgb.b);
+    }
 
     public static getRandomRBG(min = 0, max = 255): number {
         // let alphaStepCnt = 15;

@@ -50,6 +50,18 @@ export class DeviceInfo {
         return this._parserResult.browser.name == 'Safari';
     }
 
+    public get firefox(): boolean {
+        return this._parserResult.browser.name == 'Firefox';
+    }
+
+    public get googleChrome(): boolean {
+        return this._parserResult.browser.name == 'Chrome';
+    }
+
+    public get opera(): boolean {
+        return this._parserResult.browser.name.indexOf('Opera') >= 0;
+    }
+
     public get devicePixelRatio(): number {
         return window.devicePixelRatio || 1;
     }

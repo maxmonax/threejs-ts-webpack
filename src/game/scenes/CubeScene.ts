@@ -1,6 +1,5 @@
 import * as THREE from "three";
 import { BasicScene } from "./BasicScene";
-import { DebugGui } from "../debug/DebugGui";
 import { Settings } from "../data/Settings";
 import { SceneNames } from "./SceneTypes";
 import { Config } from "../data/Config";

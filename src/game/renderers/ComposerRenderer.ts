@@ -103,7 +103,7 @@ export class ComposerRenderer extends Renderer {
 
         // bloom pass
         const bloomParams = {
-            bloomStrength: 1,
+            bloomStrength: .5,
             bloomRadius: 0,
             bloomThreshold: 0
         };

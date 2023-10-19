@@ -32,19 +32,20 @@ export class SphereScene extends BasicScene {
     }
 
     private initObjects() {
-        
+        const colorFactor = 1;
+
         let light = new THREE.DirectionalLight(0xffffff, 0.5);
         light.position.set(1, 1, 1).multiplyScalar(100);
         this._scene.add(light, new THREE.AmbientLight(0xffffff, 0.5));
 
         // objects
         let glowMagenta = new THREE.MeshBasicMaterial({
-            color: new THREE.Color(1, 0, 1).multiplyScalar(8),
+            color: new THREE.Color(1, 0, 1).multiplyScalar(colorFactor),
             toneMapped: false
         });
 
         let glowAqua = new THREE.MeshBasicMaterial({
-            color: new THREE.Color(0, 1, 1).multiplyScalar(8),
+            color: new THREE.Color(0, 1, 1).multiplyScalar(colorFactor),
             toneMapped: false,
             wireframe: true
         });
@@ -79,7 +80,7 @@ export class SphereScene extends BasicScene {
         let gui = debugGui.gui;
 
         const guiData = {
-            colorFactor: 3
+            colorFactor: colorFactor
         };
 
         let colorFactorGuiController = gui.add(guiData, 'colorFactor', 1, 10, .1).onChange((v) => {

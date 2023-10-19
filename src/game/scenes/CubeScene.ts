@@ -5,9 +5,9 @@ import { BasicScene } from "./BasicScene";
 import { DebugGui } from "../debug/DebugGui";
 import { Settings } from "../data/Settings";
 import { SceneNames } from "./SceneTypes";
+import { Config } from "../data/Config";
 
 export class CubeScene extends BasicScene {
-    private _orbitControl: OrbitControls;
     
     constructor() {
         super(SceneNames.CubeScene, {
@@ -20,15 +20,6 @@ export class CubeScene extends BasicScene {
     protected onInit() {
         this.initObjects();
         this.initInputs();
-        this.initOrbitControl({
-            domElement: Settings.render.canvasParent,
-            camera: this._camera,
-            enabled: true,
-            minDist: 1,
-            maxDist: 40,
-            stopAngleTop: 10,
-            stopAngleBot: 170
-        });
         this.initDebug();
 
     }
@@ -94,39 +85,17 @@ export class CubeScene extends BasicScene {
     }
 
     private initInputs() {
-
-    }
-
-    private initOrbitControl(aParams: {
-        domElement: HTMLElement,
-        camera: THREE.Camera,
-        enabled?: boolean,
-        zoomSpeed?: number,
-        enablePan?: boolean,
-        panRadius?: number,
-        minDist?: number,
-        maxDist?: number,
-        stopAngleTop?: number,
-        stopAngleBot?: number
-    }) {
-        if (this._orbitControl) return;
-        let domElement = aParams.domElement;
-        this._orbitControl = new OrbitControls(aParams.camera, domElement);
-        this._orbitControl.enabled = aParams.enabled;
-        this._orbitControl.rotateSpeed = .5;
-        this._orbitControl.enableDamping = true;
-        this._orbitControl.dampingFactor = .9;
-        this._orbitControl.zoomSpeed = aParams.zoomSpeed || 1;
-        this._orbitControl.enablePan = aParams.enablePan == true;
-        this._orbitControl.minDistance = aParams.minDist || 1;
-        this._orbitControl.maxDistance = aParams.maxDist || 100;
-        this._orbitControl.minPolarAngle = MyMath.toRadian(aParams.stopAngleTop || 0);
-        this._orbitControl.maxPolarAngle = MyMath.toRadian(aParams.stopAngleBot || 0);
-        this._orbitControl.autoRotateSpeed = 0.05;
-        this._orbitControl.autoRotate = true;
-
-        this._orbitControl.target = new THREE.Vector3();
-        this._orbitControl.update();
+        this.initCameraController({
+            domElement: Settings.render.canvasParent,
+            camera: this._camera,
+            orbitController: {
+                minDist: 1,
+                maxDist: Config.game.meterSize * 100,
+                stopAngleTop: 10,
+                stopAngleBot: 170
+            }
+        });
+        this._cameraController.enableOrbitController();
     }
 
     private initDebug() {
@@ -134,15 +103,7 @@ export class CubeScene extends BasicScene {
         this._scene.add(axHeler);
     }
 
-    private finitOrbitControl() {
-        if (!this._orbitControl) return;
-        this._orbitControl.enabled = false;
-        this._orbitControl.dispose();
-        this._orbitControl = null;
-    }
-
-    protected onFinit() {
-        this.finitOrbitControl();
+    protected onFree() {
         // debug gui
         let debugGui = DebugGui.getInstance();
         debugGui.removeController('colorFactor');

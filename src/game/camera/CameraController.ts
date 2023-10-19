@@ -75,9 +75,11 @@ export class CameraController {
     }
 
     protected freeOrbitControl() {
-        this._orbitController.enabled = false;
-        this._orbitController.dispose();
-        this._orbitController = null;
+        if (this._orbitController) {
+            this._orbitController.enabled = false;
+            this._orbitController.dispose();
+            this._orbitController = null;
+        }
     }
 
     protected onOrbitCtrlChange(e: THREE.Event) {

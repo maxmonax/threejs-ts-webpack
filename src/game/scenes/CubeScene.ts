@@ -19,7 +19,6 @@ export class CubeScene extends BasicScene {
         this.initObjects();
         this.initInputs();
         this.initDebug();
-
     }
 
     private initObjects() {
@@ -65,21 +64,6 @@ export class CubeScene extends BasicScene {
                 .setLength(3);
         });
 
-        // debug gui
-        let debugGui = DebugGui.getInstance();
-        let gui = debugGui.gui;
-
-        const guiData = {
-            colorFactor: 8
-        };
-
-        let colorFactorGuiController = gui.add(guiData, 'colorFactor', 1, 20, 1).onChange((v) => {
-            glowingSphere.material.color.setRGB(1, 0, 1).multiplyScalar(v);
-            glowingSphere2.material.color.setRGB(0, 1, 1).multiplyScalar(v);
-        });
-
-        debugGui.addController('colorFactor', colorFactorGuiController);
-
     }
 
     private initInputs() {
@@ -102,9 +86,7 @@ export class CubeScene extends BasicScene {
     }
 
     protected onFree() {
-        // debug gui
-        let debugGui = DebugGui.getInstance();
-        debugGui.removeController('colorFactor');
+        
     }
 
     update(dt: number) {

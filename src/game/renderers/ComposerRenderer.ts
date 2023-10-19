@@ -26,6 +26,11 @@ export class ComposerRenderer extends Renderer {
 
     private _aaType: AAType;
     private _passes: Passes;
+    private _guiAlias = {
+        bloomStrength: 'bloomStrength',
+        bloomRadius: 'bloomRadius',
+        bloomThreshold: 'bloomThreshold'
+    };
 
     constructor(aParams: ComposerRendererParams) {
         super(aParams);
@@ -128,26 +133,21 @@ export class ComposerRenderer extends Renderer {
         if (aaPass) this._passes.composer.addPass(aaPass);
 
         // debug gui bloom
-        let debugGui = DebugGui.getInstance();
-        let gui = debugGui.gui;
-
-        // let colorFactorGuiController = gui.add(guiData, 'colorFactor', 1, 10, .1).onChange((v) => {
-        //     glowingSphere.material.color.setRGB(1, 0, 1).multiplyScalar(v);
-        //     glowingSphere2.material.color.setRGB(0, 1, 1).multiplyScalar(v);
-        // });
-
-        // debugGui.addController('colorFactor', colorFactorGuiController);
-
+        const debugGui = DebugGui.getInstance();
+        const gui = debugGui.gui;
         if (gui) {
-            gui.add(bloomParams, 'bloomStrength', 0, 3, 0.0001).onChange((v) => {
+            let ctrl = gui.add(bloomParams, 'bloomStrength', 0, 3, 0.0001).onChange((v) => {
                 bloomPass.strength = v;
             });
-            gui.add(bloomParams, 'bloomRadius', 0, 1, 0.001).onChange((v) => {
+            debugGui.addController(this._guiAlias.bloomStrength, ctrl);
+            ctrl = gui.add(bloomParams, 'bloomRadius', 0, 1, 0.001).onChange((v) => {
                 bloomPass.radius = v;
             });
-            gui.add(bloomParams, 'bloomThreshold', 0, 1, 0.001).onChange((v) => {
+            debugGui.addController(this._guiAlias.bloomRadius, ctrl);
+            ctrl = gui.add(bloomParams, 'bloomThreshold', 0, 1, 0.001).onChange((v) => {
                 bloomPass.threshold = v;
             });
+            debugGui.addController(this._guiAlias.bloomThreshold, ctrl);
         }
 
     }
@@ -173,6 +173,11 @@ export class ComposerRenderer extends Renderer {
     }
 
     free() {
+        const debugGui = DebugGui.getInstance();
+        debugGui.removeController(this._guiAlias.bloomRadius);
+        debugGui.removeController(this._guiAlias.bloomStrength);
+        debugGui.removeController(this._guiAlias.bloomThreshold);
+
         this._domCanvasParent.removeChild(this._renderer.domElement);
         this._domCanvasParent = null;
         this._scene = null;

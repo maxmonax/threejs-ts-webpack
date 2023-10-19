@@ -1,6 +1,4 @@
 import * as THREE from "three";
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-import { MyMath } from "../../utils/MyMath";
 import { BasicScene } from "./BasicScene";
 import { DebugGui } from "../debug/DebugGui";
 import { Settings } from "../data/Settings";

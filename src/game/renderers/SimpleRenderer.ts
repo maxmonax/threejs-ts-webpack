@@ -29,7 +29,6 @@ export class SimpleRenderer extends Renderer {
         this._renderer.setPixelRatio(Math.min(2, window.devicePixelRatio));
         this._renderer.setSize(w, h);
         this._renderer.setClearColor(this._bgColor);
-        this._renderPixelRatio = this._renderer.getPixelRatio();
         this._renderer.shadowMap.enabled = aParams.shadows;
         this._renderer.shadowMap.type = aParams.shadowType || THREE.PCFSoftShadowMap; // default THREE.PCFShadowMap
 

@@ -25,7 +25,6 @@ export enum ThreeLoaderFileType {
 type LoaderParams = {
     retryCount?: number;
     textureMapping?: THREE.Mapping;
-    textureEncoding?: THREE.TextureEncoding;
 };
 
 type LoadItem = {
@@ -412,7 +411,6 @@ export class ThreeLoader {
                 this.logDebug(`loadTexture: Complete (${aAlias}) file(${aFile}):`, aTexture);
                 // pre setups
                 if (this._params.textureMapping) aTexture.mapping = this._params.textureMapping;
-                if (this._params.textureEncoding) aTexture.encoding = this._params.textureEncoding;
                 // save to cache
                 this.cache[aAlias] = aTexture;
                 if (aCallbacks && aCallbacks.onComplete) aCallbacks.onComplete.call(aCallbacks.context);
@@ -442,9 +440,6 @@ export class ThreeLoader {
         loader.crossOrigin = "Anonymous";
         loader.load(aFiles,
             (cubeTexture: THREE.CubeTexture) => {
-                // pre sets
-                if (this._params.textureMapping) cubeTexture.mapping = this._params.textureMapping;
-                if (this._params.textureEncoding) cubeTexture.encoding = this._params.textureEncoding;
                 // to cache
                 this.cache[aAlias] = cubeTexture;
                 this.logDebug(`loadCubeTexture: load complete (${aAlias}):`, cubeTexture);
@@ -477,7 +472,6 @@ export class ThreeLoader {
             (textureData: THREE.DataTexture) => {
                 // pre sets
                 if (this._params.textureMapping) textureData.mapping = this._params.textureMapping;
-                if (this._params.textureEncoding) textureData.encoding = this._params.textureEncoding;
                 // to cache
                 this.cache[aAlias] = textureData;
                 this.logDebug(`loadHdr: Complete (${aAlias}) file(${aFile}):`, textureData);

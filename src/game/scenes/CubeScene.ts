@@ -1,8 +1,5 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-import { InputMng } from "../../utils/input/InputMng";
-import { DeviceInfo } from "../../utils/DeviceInfo";
-import { LogMng } from "../../utils/LogMng";
 import { MyMath } from "../../utils/MyMath";
 import { BasicScene } from "./BasicScene";
 import { DebugGui } from "../debug/DebugGui";
@@ -18,16 +15,6 @@ export class CubeScene extends BasicScene {
             initScene: true,
             initCamera: true
         });
-    }
-
-    logDebug(aMsg: string, aData?: any): void {
-        LogMng.debug(`CubeScene: ${aMsg}`, aData);
-    }
-    logWarn(aMsg: string, aData?: any): void {
-        LogMng.warn(`CubeScene: ${aMsg}`, aData);
-    }
-    logError(aMsg: string, aData?: any): void {
-        LogMng.error(`CubeScene: ${aMsg}`, aData);
     }
 
     protected onInit() {

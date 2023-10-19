@@ -53,7 +53,7 @@ export class SceneMng implements ILogger {
             this.logWarn(`Scene ${aName} already started`);
             return;
         }
-        this._currScene?.finit();
+        this._currScene?.free();
         let newScene = this.getSceneByName(aName);
         if (!newScene) {
             // scene not found

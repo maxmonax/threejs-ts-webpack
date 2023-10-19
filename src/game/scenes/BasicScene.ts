@@ -31,13 +31,13 @@ export class BasicScene implements ILogger, IUpdatable {
     }
 
     logDebug(aMsg: string, aData?: any): void {
-        LogMng.debug(`BasicScene: ${aMsg}`, aData);
+        LogMng.debug(`${this._name}: ${aMsg}`, aData);
     }
     logWarn(aMsg: string, aData?: any): void {
-        LogMng.warn(`BasicScene: ${aMsg}`, aData);
+        LogMng.warn(`${this._name}: ${aMsg}`, aData);
     }
     logError(aMsg: string, aData?: any): void {
-        LogMng.error(`BasicScene: ${aMsg}`, aData);
+        LogMng.error(`${this._name}: ${aMsg}`, aData);
     }
 
     protected start(sceneName: string, aData?: any) {

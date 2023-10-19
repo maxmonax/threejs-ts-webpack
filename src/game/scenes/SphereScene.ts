@@ -1,8 +1,5 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-import { InputMng } from "../../utils/input/InputMng";
-import { DeviceInfo } from "../../utils/DeviceInfo";
-import { LogMng } from "../../utils/LogMng";
 import { MyMath } from "../../utils/MyMath";
 import { BasicScene } from "./BasicScene";
 import { DebugGui } from "../debug/DebugGui";
@@ -24,20 +21,10 @@ export class SphereScene extends BasicScene {
 
     protected initRenderer() {
         this._render = new ComposerRenderer({
-            aaType: 'FXAA',
+            aaType: 'BASIC',
             bgColor: Settings.render.bgColor,
             domCanvasParent: Settings.render.canvasParent
         });
-    }
-
-    logDebug(aMsg: string, aData?: any): void {
-        LogMng.debug(`SphereScene: ${aMsg}`, aData);
-    }
-    logWarn(aMsg: string, aData?: any): void {
-        LogMng.warn(`SphereScene: ${aMsg}`, aData);
-    }
-    logError(aMsg: string, aData?: any): void {
-        LogMng.error(`SphereScene: ${aMsg}`, aData);
     }
 
     protected onInit() {
@@ -104,10 +91,10 @@ export class SphereScene extends BasicScene {
         let gui = debugGui.gui;
 
         const guiData = {
-            colorFactor: 8
+            colorFactor: 3
         };
 
-        let colorFactorGuiController = gui.add(guiData, 'colorFactor', 1, 20, 1).onChange((v) => {
+        let colorFactorGuiController = gui.add(guiData, 'colorFactor', 1, 10, .1).onChange((v) => {
             glowingSphere.material.color.setRGB(1, 0, 1).multiplyScalar(v);
             glowingSphere2.material.color.setRGB(0, 1, 1).multiplyScalar(v);
         });

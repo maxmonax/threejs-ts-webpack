@@ -16,7 +16,6 @@ export abstract class Renderer implements ILogger {
     protected _camera: THREE.Camera;
     protected _bgColor: THREE.Color;
     protected _renderer: THREE.WebGLRenderer;
-    protected _renderPixelRatio: number;
 
     constructor(aParams: RendererParams) {
         this._domCanvasParent = aParams.domCanvasParent;

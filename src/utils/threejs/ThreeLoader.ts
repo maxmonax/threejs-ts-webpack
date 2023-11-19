@@ -162,7 +162,7 @@ export class ThreeLoader {
         };
         return setId;
     }
-
+    
     /**
      * Add any file to set except CubeTexture | Font
      * @param aSetId 

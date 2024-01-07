@@ -76,6 +76,10 @@ export class MyMath {
         if (min > max) throw new Error("MyMath.randomIntInRange(): Min > Max!");
         return Math.round(MyMath.randomInRange(min, max));
     }
+    
+    public static isValueBetween(aValue: number, aMin: number, aMax: number): boolean {
+        return aValue >= aMin && aValue <= aMax;
+    }
 
     /**
      * Return -1 or 1 randomly

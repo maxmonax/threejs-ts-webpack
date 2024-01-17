@@ -50,7 +50,7 @@ export abstract class Renderer implements ILogger {
         LogMng.error(`Renderer: ${aMsg}`, aData);
     }
 
-    protected abstract initRender(...params): void;
+    protected abstract initRenderer(...params): void;
     abstract onWindowResize(w: number, h: number): void;
     abstract free(): void;
     abstract render(): void;

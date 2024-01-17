@@ -13,13 +13,13 @@ export type AAType = 'NONE' | 'BASIC' | 'FXAA' | 'SMAA';
 
 type Passes = {
     composer?: EffectComposer;
-    renderPass: RenderPass;
+    renderPass?: RenderPass;
     fxaaPass?: ShaderPass;
     smaaPass?: SMAAPass;
 }
 
 type ComposerRendererParams = RendererParams & {
-    aaType: AAType
+    aaType?: AAType
 }
 
 export class ComposerRenderer extends Renderer {
@@ -34,27 +34,24 @@ export class ComposerRenderer extends Renderer {
 
     constructor(aParams: ComposerRendererParams) {
         super(aParams);
-        this._aaType = aParams.aaType as AAType;
-        this.initRender();
+        this._aaType = aParams.aaType || 'BASIC';
+        this.initRenderer();
         this.initPasses();
     }
 
-    protected initRender() {
+    protected initRenderer() {
         const w = this._domCanvasParent.clientWidth;
         const h = this._domCanvasParent.clientHeight;
 
         this._renderer = new THREE.WebGLRenderer({
-            antialias: this._aaType == 'BASIC'
+            antialias: this._aaType === 'BASIC'
         });
         this._renderer.setPixelRatio(Math.min(2, window.devicePixelRatio));
         this._renderer.setSize(w, h);
         this._renderer.setClearColor(this._bgColor);
         this._renderer.shadowMap.enabled = true;
         this._renderer.shadowMap.type = THREE.PCFSoftShadowMap; // default THREE.PCFShadowMap
-
-        // this._renderer.toneMapping = THREE.LinearToneMapping;
-        // this._renderer.toneMappingExposure = 0.8;
-
+        
         this._domCanvasParent.appendChild(this._renderer.domElement);
     }
 
@@ -69,17 +66,20 @@ export class ComposerRenderer extends Renderer {
     }
 
     private initPasses() {
+
         const w = this._domCanvasParent.clientWidth;
         const h = this._domCanvasParent.clientHeight;
         const pixelRatio = this._renderer.getPixelRatio();
 
-        this._passes = {
-            renderPass: new RenderPass(this._scene, this._camera)
-        };
+        this._passes = {};
+
+        // render pass
+        this._passes.renderPass = new RenderPass(this._scene, this._camera);
 
         // anti-aliasing pass
         let aaPass: ShaderPass | SMAAPass;
         switch (this._aaType) {
+
             case 'NONE':
             case 'BASIC':
                 break;
@@ -115,21 +115,22 @@ export class ComposerRenderer extends Renderer {
             bloomParams.bloomThreshold
         );
 
-        const outPass = new OutputPass();
+        // output pass
+        const outputPass = new OutputPass();
 
         let rt = new THREE.WebGLRenderTarget(innerWidth, innerHeight, {
             type: THREE.FloatType,
-            encoding: THREE.sRGBEncoding,
+            colorSpace: THREE.SRGBColorSpace,
             minFilter: THREE.NearestFilter,
             magFilter: THREE.NearestFilter,
-            samples: 4
+            samples: 2
         });
 
         this._passes.composer = new EffectComposer(this._renderer, rt);
-        this._passes.composer.setPixelRatio(1);
+        this._passes.composer.setPixelRatio(.8);
         this._passes.composer.addPass(this._passes.renderPass);
         this._passes.composer.addPass(bloomPass);
-        this._passes.composer.addPass(outPass);
+        this._passes.composer.addPass(outputPass);
         if (aaPass) this._passes.composer.addPass(aaPass);
 
         // debug gui bloom

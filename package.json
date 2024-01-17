@@ -13,7 +13,7 @@
     "devDependencies": {
         "@types/dat.gui": "^0.7.7",
         "@types/stats": "^0.16.30",
-        "@types/three": "^0.157.2",
+        "@types/three": "^0.160.0",
         "@types/ua-parser-js": "^0.7.36",
         "clean-webpack-plugin": "^4.0.0",
         "copy-webpack-plugin": "^11.0.0",
@@ -37,7 +37,7 @@
         "dat.gui": "^0.7.9",
         "gsap": "^3.11.4",
         "stats-js": "^1.0.1",
-        "three": "^0.157.0",
+        "three": "^0.160.0",
         "ua-parser-js": "^1.0.33"
     }
 }

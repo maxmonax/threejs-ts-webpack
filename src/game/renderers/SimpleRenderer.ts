@@ -15,10 +15,10 @@ export class SimpleRenderer extends Renderer {
         
     constructor(aParams: SimpleRendererParams) {
         super(aParams);
-        this.initRender(aParams);
+        this.initRenderer(aParams);
     }
 
-    protected initRender(aParams: SimpleRendererParams): void {
+    protected initRenderer(aParams: SimpleRendererParams): void {
 
         let w = this._domCanvasParent.clientWidth;
         let h = this._domCanvasParent.clientHeight;

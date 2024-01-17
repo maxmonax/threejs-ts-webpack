@@ -18,7 +18,7 @@ export class SphereScene extends BasicScene {
 
     protected initRenderer() {
         this._render = new ComposerRenderer({
-            aaType: 'BASIC',
+            aaType: 'FXAA',
             bgColor: Settings.render.bgColor,
             domCanvasParent: Settings.render.canvasParent
         });
@@ -34,9 +34,11 @@ export class SphereScene extends BasicScene {
     private initObjects() {
         const colorFactor = 1;
 
-        let light = new THREE.DirectionalLight(0xffffff, 0.5);
-        light.position.set(1, 1, 1).multiplyScalar(100);
-        this._scene.add(light, new THREE.AmbientLight(0xffffff, 0.5));
+        let dirLight = new THREE.DirectionalLight(0xffffff, 0.5);
+        dirLight.position.set(1, 1, 1).multiplyScalar(100);
+        this._scene.add(dirLight);
+        let ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+        this._scene.add(ambientLight);
 
         // objects
         let glowMagenta = new THREE.MeshBasicMaterial({
@@ -74,6 +76,17 @@ export class SphereScene extends BasicScene {
                 .set(Math.cos(a), 0, Math.sin(-a))
                 .setLength(3);
         });
+
+        // simple objects
+        let simpleMaterial = new THREE.MeshStandardMaterial({
+            color: 0xffffff
+        })
+        let simpleObject1 = new THREE.Mesh(
+            new THREE.SphereGeometry(.3, 20, 20),
+            simpleMaterial
+        )
+        simpleObject1.position.set(-1.5, 0, 0);
+        this._scene.add(simpleObject1);
 
         // debug gui
         let debugGui = DebugGui.getInstance();

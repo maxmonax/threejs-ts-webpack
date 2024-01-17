@@ -42,7 +42,6 @@ export class InterpolationUtils {
 
 }
 
-
 export class MySpline {
     private _points: { val, t }[];
     private _interpolateFunc: Function;

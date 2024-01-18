@@ -115,22 +115,23 @@ export class ComposerRenderer extends Renderer {
             bloomParams.bloomThreshold
         );
 
-        // output pass
-        const outputPass = new OutputPass();
-
         let rt = new THREE.WebGLRenderTarget(innerWidth, innerHeight, {
             type: THREE.FloatType,
             colorSpace: THREE.SRGBColorSpace,
-            minFilter: THREE.NearestFilter,
-            magFilter: THREE.NearestFilter,
-            samples: 2
+            // minFilter: THREE.NearestFilter,
+            // magFilter: THREE.NearestFilter,
+            // samples: 2
         });
 
         this._passes.composer = new EffectComposer(this._renderer, rt);
-        this._passes.composer.setPixelRatio(.8);
+        this._passes.composer.setPixelRatio(1);
         this._passes.composer.addPass(this._passes.renderPass);
         this._passes.composer.addPass(bloomPass);
+
+        // output pass (improves the picture but -16 FPS)
+        const outputPass = new OutputPass();
         this._passes.composer.addPass(outputPass);
+
         if (aaPass) this._passes.composer.addPass(aaPass);
 
         // debug gui bloom

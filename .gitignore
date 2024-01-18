@@ -7,6 +7,9 @@
 node_modules/
 build/
 
+# npm
+package-lock.json
+
 # Compiled Java class files
 *.class
 

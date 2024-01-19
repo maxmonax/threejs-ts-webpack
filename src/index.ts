@@ -1,7 +1,7 @@
 import './html/css/main.css';
 import './html/css/loader.css';
-import { GameEngine } from './game/GameEngine';
-import { FrontEvents } from './game/events/FrontEvents';
+import { GameEngine } from './core/GameEngine';
+import { FrontEvents } from './core/events/FrontEvents';
 import { Settings } from './game/data/Settings';
 import { SphereScene } from './game/scenes/SphereScene';
 import { BootScene } from './game/scenes/BootScene';

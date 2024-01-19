@@ -7,7 +7,7 @@ import { FXAAShader } from "three/examples/jsm/shaders/FXAAShader";
 import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPass";
 import { OutputPass } from 'three/examples/jsm/postprocessing/OutputPass.js';
 import { Renderer, RendererParams } from "./Renderer";
-import { DebugGui } from "../debug/DebugGui";
+import { DebugGui } from "../../game/debug/DebugGui";
 
 export type AAType = 'NONE' | 'BASIC' | 'FXAA' | 'SMAA';
 

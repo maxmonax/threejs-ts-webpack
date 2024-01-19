@@ -1,10 +1,9 @@
 import * as THREE from "three";
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { ILogger } from "../interfaces/ILogger";
 import { IUpdatable } from "../interfaces/IUpdatable";
 import { LogMng } from "../../utils/LogMng";
 import { Renderer } from "../renderers/Renderer";
-import { Settings } from "../data/Settings";
+import { Settings } from "../../game/data/Settings";
 import { Signal } from "../../utils/events/Signal";
 import { SimpleRenderer } from "../renderers/SimpleRenderer";
 import { CameraController, CameraControllerParams } from "../camera/CameraController";

@@ -1,9 +1,9 @@
 import * as THREE from "three";
-import { BasicScene } from "./BasicScene";
+import { BasicScene } from "../../core/scene/BasicScene";
 import { DebugGui } from "../debug/DebugGui";
 import { Settings } from "../data/Settings";
-import { SceneNames } from "./SceneTypes";
-import { ComposerRenderer } from "../renderers/ComposerRenderer";
+import { SceneNames } from "./SceneNames";
+import { ComposerRenderer } from "../../core/renderers/ComposerRenderer";
 import { Config } from "../data/Config";
 
 export class SphereScene extends BasicScene {

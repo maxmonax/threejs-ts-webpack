@@ -1,13 +1,13 @@
 import * as THREE from "three";
 import { ILogger } from "./interfaces/ILogger";
 import { LogMng } from "../utils/LogMng";
-import { SceneMng } from "./scenes/SceneMng";
-import { Settings } from "./data/Settings";
+import { SceneMng } from "./scene/SceneMng";
+import { Settings } from "../game/data/Settings";
 import { FrontEvents } from "./events/FrontEvents";
-import { DebugGui } from "./debug/DebugGui";
-import { BasicScene } from "./scenes/BasicScene";
-import { Config } from "./data/Config";
-import { SceneNames } from "./scenes/SceneTypes";
+import { DebugGui } from "../game/debug/DebugGui";
+import { BasicScene } from "./scene/BasicScene";
+import { Config } from "../game/data/Config";
+import { SceneNames } from "../game/scenes/SceneNames";
 import { InputMng } from "../utils/input/InputMng";
 import { DeviceInfo } from "../utils/DeviceInfo";
 

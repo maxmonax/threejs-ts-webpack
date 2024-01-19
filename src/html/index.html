@@ -12,16 +12,27 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
-    <title>Three.js Template</title>
+    <style>
+        body {
+            overflow: hidden;
+            background-color: #111;
+            padding: 0;
+            margin: 0;
+            border: none;
+            font-family: 'Ubuntu', sans-serif;
+        }
+    </style>
     
+    <title>Three.js Template</title>
+
     <script src="js/stats.min.js"></script>
 
 </head>
 
 <body>
-    
+
     <div id="game" unselectable="on"></div>
-    
+
     <div id="loader" class="loader" unselectable="on">
         <div class="loader-cubes">
             <div style='left:17px;top:17px;animation-delay:0s'></div>

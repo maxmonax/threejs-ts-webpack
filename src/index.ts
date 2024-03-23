@@ -7,6 +7,7 @@ import { SphereScene } from './game/scenes/SphereScene';
 import { BootScene } from './game/scenes/BootScene';
 import { PreloaderScene } from './game/scenes/PreloaderScene';
 import { CubeScene } from './game/scenes/CubeScene';
+import { EffectScene } from './game/scenes/EffectScene';
 
 window.addEventListener('load', () => {
     Settings.render.canvasParent = document.getElementById('game');
@@ -17,6 +18,7 @@ window.addEventListener('load', () => {
             new PreloaderScene(),
             new SphereScene(),
             new CubeScene(),
+            new EffectScene(),
         ]
     });
 }, false);

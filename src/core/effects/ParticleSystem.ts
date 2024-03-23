@@ -1,5 +1,4 @@
 import * as THREE from "three";
-import { Signal } from "../../utils/events/Signal";
 import { MyMath } from "../../utils/MyMath";
 import { MySpline } from "../../utils/InterpolateUtils";
 
@@ -10,7 +9,6 @@ type ParticleSystemParams = {
     parent: THREE.Object3D;
     camera: THREE.Camera;
     texture: THREE.Texture;
-    onWindowResizeSignal: Signal;
     frequency?: number; // how many particles in second
     lifeTime?: number;
     gravity?: THREE.Vector3;
@@ -95,7 +93,8 @@ export class ParticleSystem {
             uniforms: this._uniforms,
             vertexShader: vertShader,
             fragmentShader: fragShader,
-            blending: THREE.AdditiveBlending,
+            // blending: THREE.AdditiveBlending,
+            blending: THREE.NormalBlending,
             depthTest: true,
             depthWrite: false,
             transparent: true,
@@ -114,16 +113,24 @@ export class ParticleSystem {
         this._params.parent.add(this._points);
 
         if (this._params.alphaChange) {
-            this._alphaSpline = new MySpline(this.simpleLinerSpline);
+            this._alphaSpline = new MySpline();
             for (let i = 0; i < this._params.alphaChange.length; i++) {
                 const a = this._params.alphaChange[i];
                 this._alphaSpline.addPoint(a.val, a.t);
             }
             this._startAlpha = this._params.alphaChange[0].val;
+
+            // test
+            // let at = [0, .1, .5, .75, 1];
+            // for (let i = 0; i < at.length; i++) {
+            //     const t = at[i];
+            //     const val = this._alphaSpline.getValue(t);
+            //     console.log(`alpha test: t(${t}) = ${val}`);
+            // }
         }
 
         if (this._params.scaleFactorChange) {
-            this._scaleFactorSpline = new MySpline(this.simpleLinerSpline);
+            this._scaleFactorSpline = new MySpline();
             for (let i = 0; i < this._params.scaleFactorChange.length; i++) {
                 const sf = this._params.scaleFactorChange[i];
                 this._scaleFactorSpline.addPoint(sf.val, sf.t);
@@ -132,8 +139,6 @@ export class ParticleSystem {
         }
 
         this.activated = true;
-
-        this._params.onWindowResizeSignal.add(this.onWindowResize, this);
     }
 
     public get params(): ParticleSystemParams {
@@ -142,14 +147,6 @@ export class ParticleSystem {
     
     public get position(): THREE.Vector3 {
         return this._params.position;
-    }
-
-    private onWindowResize() {
-        this._uniforms.pointMultiplier.value = window.innerHeight / (2.0 * Math.tan(.02 * 60.0 * Math.PI / 180));
-    }
-
-    private simpleLinerSpline(t, a, b) {
-        return a + t * (b - a);
     }
 
     private addParticles(count: number, dt: number) {
@@ -229,12 +226,12 @@ export class ParticleSystem {
 
             // alpha
             if (this._alphaSpline) {
-                p.alpha = this._alphaSpline.get(lifeProgress);
+                p.alpha = this._alphaSpline.getValue(lifeProgress);
             }
 
             // size
             if (this._scaleFactorSpline) {
-                p.size = p.startSize * this._scaleFactorSpline.get(lifeProgress) * this.params.sizeFactor;
+                p.size = p.startSize * this._scaleFactorSpline.getValue(lifeProgress) * this.params.sizeFactor;
             }
 
             // pos
@@ -262,11 +259,14 @@ export class ParticleSystem {
     public get particlesCount(): number {
         return this._particles.length;
     }
-    
+
+    onWindowResize() {
+        this._uniforms.pointMultiplier.value = window.innerHeight / (2.0 * Math.tan(.02 * 60.0 * Math.PI / 180));
+    }
+
     free() {
         this._destroyed = true;
         this.activated = false;
-        this._params.onWindowResizeSignal.remove(this.onWindowResize, this);
         this._particles = [];
         this.updateGeometry();
         this._params = null;

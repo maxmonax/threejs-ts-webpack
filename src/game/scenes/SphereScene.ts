@@ -5,8 +5,12 @@ import { Settings } from "../data/Settings";
 import { SceneNames } from "./SceneNames";
 import { ComposerRenderer } from "../../core/renderers/ComposerRenderer";
 import { Config } from "../data/Config";
+import { ParticleSystem } from "@/core/effects/ParticleSystem";
+import { ThreeLoader } from "@/utils/threejs/ThreeLoader";
+import { TextureAlias } from "../data/TextureData";
 
 export class SphereScene extends BasicScene {
+    private _effect: ParticleSystem;
     
     constructor() {
         super(SceneNames.SphereScene, {
@@ -33,6 +37,8 @@ export class SphereScene extends BasicScene {
 
     private initObjects() {
         const colorFactor = 1;
+
+        let loader = ThreeLoader.getInstance();
 
         let dirLight = new THREE.DirectionalLight(0xffffff, 0.5);
         dirLight.position.set(1, 1, 1).multiplyScalar(100);
@@ -130,8 +136,13 @@ export class SphereScene extends BasicScene {
         debugGui.removeController('colorFactor');
     }
 
+    onWindowResize() {
+        super.onWindowResize();
+        this._effect?.onWindowResize();
+    }
+
     update(dt: number) {
-        
+        this._effect?.update(dt);
     }
 
 }

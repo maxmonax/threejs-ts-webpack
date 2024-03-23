@@ -185,6 +185,26 @@ export class MyMath {
         return Math.sqrt(dx * dx + dy * dy + dz * dz);
     }
 
+    public static normalizeVector(v: { x: number, y: number }): { x: number, y: number } {
+        const length = this.getVec2Length(0, 0, v.x, v.y);
+        return { x: v.x / length, y: v.y / length };
+    }
+
+    public static distanceBetween(p1: { x: number, y: number }, p2: { x: number, y: number }): number {
+        const dx = p1.x - p2.x;
+        const dy = p1.y - p2.y;
+        return Math.sqrt(dx * dx + dy * dy);
+    }
+
+    /**
+     * Convert angle to Vec2
+     * @param aAngle angle in radians
+     * @returns 
+     */
+    public static angleToVec2(aAngle: number): Vec2 {
+        return new Vec2(Math.cos(aAngle), Math.sin(aAngle));
+    }
+
     /**
      * dot product of vectors (scalar product)
      */

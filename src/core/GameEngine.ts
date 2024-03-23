@@ -70,11 +70,15 @@ export class GameEngine implements ILogger {
             },
             cubes: () => {
                 this._sceneMng.startScene(SceneNames.CubeScene);
+            },
+            effects: () => {
+                this._sceneMng.startScene(SceneNames.EffectScene);
             }
         }
         let gui = DebugGui.getInstance().gui;
         gui.add(DATA, 'spheres').name('Spheres Scene');
         gui.add(DATA, 'cubes').name('Cubes Scene');
+        gui.add(DATA, 'effects').name('Effects Scene');
     }
 
     private initEvents() {

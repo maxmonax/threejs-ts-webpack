@@ -6,7 +6,8 @@ export type RendererParams = {
     domCanvasParent: HTMLElement,
     scene?: THREE.Scene,
     camera?: THREE.Camera,
-    bgColor: number
+    bgColor: number,
+    debugMode?: boolean
 };
 
 export abstract class Renderer implements ILogger {
@@ -16,12 +17,14 @@ export abstract class Renderer implements ILogger {
     protected _camera: THREE.Camera;
     protected _bgColor: THREE.Color;
     protected _renderer: THREE.WebGLRenderer;
+    protected _debugMode = false;
 
     constructor(aParams: RendererParams) {
         this._domCanvasParent = aParams.domCanvasParent;
         this._scene = aParams.scene;
         this._camera = aParams.camera;
         this._bgColor = new THREE.Color(aParams.bgColor);
+        this._debugMode = aParams.debugMode;
     }
 
     public set scene(v: THREE.Scene) {

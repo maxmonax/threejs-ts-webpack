@@ -1,15 +1,16 @@
 import * as THREE from "three";
 import { BasicScene } from "../../core/scene/BasicScene";
 import { DebugGui } from "../debug/DebugGui";
-import { Settings } from "../data/Settings";
+import { Params } from "../data/Params";
 import { SceneNames } from "./SceneNames";
 import { ComposerRenderer } from "../../core/renderers/ComposerRenderer";
 import { Config } from "../data/Config";
 import { ParticleSystem } from "@/core/effects/ParticleSystem";
 import { ThreeLoader } from "@/utils/threejs/ThreeLoader";
 import { TextureAlias } from "../data/TextureData";
+import { DemoScene } from "./DemoScene";
 
-export class EffectScene extends BasicScene {
+export class EffectScene extends DemoScene {
     private _effect: ParticleSystem;
     
     constructor() {
@@ -21,6 +22,7 @@ export class EffectScene extends BasicScene {
     }
 
     protected onInit() {
+        this.initGuiSceneFolder();
         this.initObjects();
         this.initInputs();
         this.initDebug();
@@ -82,7 +84,7 @@ export class EffectScene extends BasicScene {
 
     private initInputs() {
         this.initCameraController({
-            domElement: Settings.render.canvasParent,
+            domElement: Params.render.canvasParent,
             camera: this._camera,
             orbitController: {
                 minDist: 1,
@@ -100,9 +102,7 @@ export class EffectScene extends BasicScene {
     }
 
     protected onFree() {
-        // debug gui
-        let debugGui = DebugGui.getInstance();
-        debugGui.removeController('colorFactor');
+        super.onFree();
     }
 
     onWindowResize() {

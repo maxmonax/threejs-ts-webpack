@@ -2,7 +2,7 @@ import * as THREE from "three";
 import { ILogger } from "./interfaces/ILogger";
 import { LogMng } from "../utils/LogMng";
 import { SceneMng } from "./scene/SceneMng";
-import { Settings } from "../game/data/Settings";
+import { Params } from "../game/data/Params";
 import { FrontEvents } from "./events/FrontEvents";
 import { DebugGui } from "../game/debug/DebugGui";
 import { BasicScene } from "./scene/BasicScene";
@@ -17,7 +17,7 @@ type GameParams = {
 }
 
 export class GameEngine implements ILogger {
-
+    private _className = 'GameEngine';
     private _params: GameParams;
     private _sceneMng: SceneMng;
     private _stats: Stats;
@@ -30,55 +30,36 @@ export class GameEngine implements ILogger {
 
         this.initLogging();
         this.initStats();
-        this.initDebugGui();
         this.initEvents();
         this.initScenes(this._params.scenes);
-        this.initInputs(Settings.render.canvasParent);
+        this.initInputs(Params.render.canvasParent);
         this.animate();
     }
 
     logDebug(aMsg: string, aData?: any): void {
-        LogMng.debug(`GameEngine: ${aMsg}`, aData);
+        LogMng.debug(`${this._className}: ${aMsg}`, aData);
     }
     logWarn(aMsg: string, aData?: any): void {
-        LogMng.warn(`GameEngine: ${aMsg}`, aData);
+        LogMng.warn(`${this._className}: ${aMsg}`, aData);
     }
     logError(aMsg: string, aData?: any): void {
-        LogMng.error(`GameEngine: ${aMsg}`, aData);
+        LogMng.error(`${this._className}: ${aMsg}`, aData);
     }
 
     private initLogging() {
         // init debug mode
-        Settings.isDebugMode = window.location.hash === '#debug';
+        Params.isDebugMode = window.location.hash === '#debug';
         // LogMng settings
-        if (!Settings.isDebugMode) LogMng.setMode(LogMng.MODE_RELEASE);
+        if (!Params.isDebugMode) LogMng.setMode(LogMng.MODE_RELEASE);
         LogMng.system('log mode: ' + LogMng.getMode());
     }
 
     private initStats() {
-        if (Settings.isDebugMode) {
+        if (Params.isDebugMode) {
             this._stats = new Stats();
             this._stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
             document.body.appendChild(this._stats.dom);
         }
-    }
-
-    private initDebugGui() {
-        let DATA = {
-            spheres: () => {
-                this._sceneMng.startScene(SceneNames.SphereScene);
-            },
-            cubes: () => {
-                this._sceneMng.startScene(SceneNames.CubeScene);
-            },
-            effects: () => {
-                this._sceneMng.startScene(SceneNames.EffectScene);
-            }
-        }
-        let gui = DebugGui.getInstance().gui;
-        gui.add(DATA, 'spheres').name('Spheres Scene');
-        gui.add(DATA, 'cubes').name('Cubes Scene');
-        gui.add(DATA, 'effects').name('Effects Scene');
     }
 
     private initEvents() {
@@ -111,10 +92,10 @@ export class GameEngine implements ILogger {
     private animate() {
         let dt = this._clock.getDelta();
 
-        if (Settings.isDebugMode) this._stats.begin();
+        if (Params.isDebugMode) this._stats.begin();
         this.update(dt);
         this.render();
-        if (Settings.isDebugMode) this._stats.end();
+        if (Params.isDebugMode) this._stats.end();
 
         requestAnimationFrame(() => this.animate());
     }

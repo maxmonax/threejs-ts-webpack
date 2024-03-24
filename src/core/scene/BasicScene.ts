@@ -3,7 +3,7 @@ import { ILogger } from "../interfaces/ILogger";
 import { IUpdatable } from "../interfaces/IUpdatable";
 import { LogMng } from "../../utils/LogMng";
 import { Renderer } from "../renderers/Renderer";
-import { Settings } from "../../game/data/Settings";
+import { Params } from "../../game/data/Params";
 import { Signal } from "../../utils/events/Signal";
 import { SimpleRenderer } from "../renderers/SimpleRenderer";
 import { CameraController, CameraControllerParams } from "../camera/CameraController";
@@ -39,14 +39,14 @@ export class BasicScene implements ILogger, IUpdatable {
         LogMng.error(`${this._name}: ${aMsg}`, aData);
     }
 
-    protected start(sceneName: string, aData?: any) {
+    protected startScene(sceneName: string, aData?: any) {
         this.onSceneStart.dispatch(this, sceneName, aData);
     }
 
     protected initRenderer() {
         this._render = new SimpleRenderer({
-            bgColor: Settings.render.bgColor,
-            domCanvasParent: Settings.render.canvasParent
+            bgColor: Params.render.bgColor,
+            domCanvasParent: Params.render.canvasParent
         });
     }
 

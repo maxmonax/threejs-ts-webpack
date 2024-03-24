@@ -82,7 +82,7 @@ export class PreloaderScene extends BasicScene {
         this._isLoadingInProcess = false;
         // event for front GUI loading bar
         document.getElementById('loader').remove();
-        this.start(SceneNames.SphereScene);
+        this.startScene(SceneNames.SphereScene);
     }
 
 }

@@ -1,5 +1,5 @@
 import { LogMng } from "../../utils/LogMng";
-import { Settings } from '../data/Settings';
+import { Params } from '../data/Params';
 import { MyUtils } from '../../utils/MyUtils';
 import { BasicScene } from "../../core/scene/BasicScene";
 import { SceneNames } from "./SceneNames";
@@ -23,7 +23,7 @@ export class BootScene extends BasicScene {
     onInit() {
         // GET Params
         this.readGETParams();
-        this.start(SceneNames.PreloaderScene);
+        this.startScene(SceneNames.PreloaderScene);
     }
     
     private readGETParams() {

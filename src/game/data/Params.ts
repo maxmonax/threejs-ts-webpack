@@ -2,7 +2,7 @@
 /**
  * Global parameters
  */
-export class Settings {
+export class Params {
 
     // modes
     static isDebugMode = false;

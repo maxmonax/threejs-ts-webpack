@@ -1,10 +1,12 @@
 import * as THREE from "three";
 import { BasicScene } from "../../core/scene/BasicScene";
-import { Settings } from "../data/Settings";
+import { Params } from "../data/Params";
 import { SceneNames } from "./SceneNames";
 import { Config } from "../data/Config";
+import { DebugGui } from "../debug/DebugGui";
+import { DemoScene } from "./DemoScene";
 
-export class CubeScene extends BasicScene {
+export class CubeScene extends DemoScene {
     
     constructor() {
         super(SceneNames.CubeScene, {
@@ -15,6 +17,7 @@ export class CubeScene extends BasicScene {
     }
 
     protected onInit() {
+        this.initGuiSceneFolder();
         this.initObjects();
         this.initInputs();
         this.initDebug();
@@ -67,7 +70,7 @@ export class CubeScene extends BasicScene {
 
     private initInputs() {
         this.initCameraController({
-            domElement: Settings.render.canvasParent,
+            domElement: Params.render.canvasParent,
             camera: this._camera,
             orbitController: {
                 minDist: 1,
@@ -85,7 +88,7 @@ export class CubeScene extends BasicScene {
     }
 
     protected onFree() {
-        
+        super.onFree();
     }
 
     update(dt: number) {

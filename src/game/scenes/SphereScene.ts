@@ -1,15 +1,16 @@
 import * as THREE from "three";
 import { BasicScene } from "../../core/scene/BasicScene";
 import { DebugGui } from "../debug/DebugGui";
-import { Settings } from "../data/Settings";
+import { Params } from "../data/Params";
 import { SceneNames } from "./SceneNames";
 import { ComposerRenderer } from "../../core/renderers/ComposerRenderer";
 import { Config } from "../data/Config";
 import { ParticleSystem } from "@/core/effects/ParticleSystem";
 import { ThreeLoader } from "@/utils/threejs/ThreeLoader";
 import { TextureAlias } from "../data/TextureData";
+import { DemoScene } from "./DemoScene";
 
-export class SphereScene extends BasicScene {
+export class SphereScene extends DemoScene {
     private _effect: ParticleSystem;
     
     constructor() {
@@ -23,16 +24,17 @@ export class SphereScene extends BasicScene {
     protected initRenderer() {
         this._render = new ComposerRenderer({
             aaType: 'FXAA',
-            bgColor: Settings.render.bgColor,
-            domCanvasParent: Settings.render.canvasParent
+            bgColor: Params.render.bgColor,
+            domCanvasParent: Params.render.canvasParent,
+            debugMode: Params.isDebugMode
         });
     }
 
     protected onInit() {
+        this.initGuiSceneFolder();
         this.initObjects();
         this.initInputs();
         this.initDebug();
-
     }
 
     private initObjects() {
@@ -95,25 +97,23 @@ export class SphereScene extends BasicScene {
         this._scene.add(simpleObject1);
 
         // debug gui
-        let debugGui = DebugGui.getInstance();
-        let gui = debugGui.gui;
-
-        const guiData = {
-            colorFactor: colorFactor
-        };
-
-        let colorFactorGuiController = gui.add(guiData, 'colorFactor', 1, 10, .1).onChange((v) => {
-            glowingSphere.material.color.setRGB(1, 0, 1).multiplyScalar(v);
-            glowingSphere2.material.color.setRGB(0, 1, 1).multiplyScalar(v);
-        });
-
-        debugGui.addController('colorFactor', colorFactorGuiController);
+        if (Params.isDebugMode) {
+            let debugGui = DebugGui.getInstance();
+            let gui = debugGui.gui;
+            const guiData = {
+                colorFactor: colorFactor
+            };
+            debugGui.addElement('colorFactor', gui.add(guiData, 'colorFactor', 1, 10, .1).onChange((v) => {
+                glowingSphere.material.color.setRGB(1, 0, 1).multiplyScalar(v);
+                glowingSphere2.material.color.setRGB(0, 1, 1).multiplyScalar(v);
+            }));
+        }
 
     }
 
     private initInputs() {
         this.initCameraController({
-            domElement: Settings.render.canvasParent,
+            domElement: Params.render.canvasParent,
             camera: this._camera,
             orbitController: {
                 minDist: 1,
@@ -131,9 +131,7 @@ export class SphereScene extends BasicScene {
     }
 
     protected onFree() {
-        // debug gui
-        let debugGui = DebugGui.getInstance();
-        debugGui.removeController('colorFactor');
+        super.onFree();
     }
 
     onWindowResize() {

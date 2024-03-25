@@ -130,7 +130,7 @@ export class MyMath {
      */
     public static map(value: number, min1: number, max1: number, min2: number, max2: number): number {
         let p = (value - min1) / (max1 - min1);
-        return p * (max2 - min2);
+        return min2 + p * (max2 - min2);
     }
 
     /**

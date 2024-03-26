@@ -2,18 +2,15 @@ import * as THREE from "three";
 import { ILogger } from "./interfaces/ILogger";
 import { LogMng } from "../utils/LogMng";
 import { SceneMng } from "./scene/SceneMng";
-import { Params } from "../game/data/Params";
 import { FrontEvents } from "./events/FrontEvents";
-import { DebugGui } from "../game/debug/DebugGui";
 import { BasicScene } from "./scene/BasicScene";
-import { Config } from "../game/data/Config";
-import { SceneNames } from "../game/scenes/SceneNames";
 import { InputMng } from "../utils/input/InputMng";
 import { DeviceInfo } from "../utils/DeviceInfo";
+import { Params } from "@/game/data/Params";
 
 type GameParams = {
-    assetsPath: string;
     scenes: BasicScene[];
+    inputDomElement: HTMLElement;
 }
 
 export class GameEngine implements ILogger {
@@ -25,14 +22,12 @@ export class GameEngine implements ILogger {
 
     constructor(aParams: GameParams) {
         this._params = aParams;
-        Config.assetsPath = this._params.assetsPath;
         this._clock = new THREE.Clock();
 
-        this.initLogging();
         this.initStats();
         this.initEvents();
+        this.initInputs(this._params.inputDomElement);
         this.initScenes(this._params.scenes);
-        this.initInputs(Params.render.canvasParent);
         this.animate();
     }
 
@@ -44,14 +39,6 @@ export class GameEngine implements ILogger {
     }
     logError(aMsg: string, aData?: any): void {
         LogMng.error(`${this._className}: ${aMsg}`, aData);
-    }
-
-    private initLogging() {
-        // init debug mode
-        Params.isDebugMode = window.location.hash === '#debug';
-        // LogMng settings
-        if (!Params.isDebugMode) LogMng.setMode(LogMng.MODE_RELEASE);
-        LogMng.system('log mode: ' + LogMng.getMode());
     }
 
     private initStats() {

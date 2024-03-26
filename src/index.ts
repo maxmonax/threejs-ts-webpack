@@ -8,11 +8,19 @@ import { BootScene } from './game/scenes/BootScene';
 import { PreloaderScene } from './game/scenes/PreloaderScene';
 import { CubeScene } from './game/scenes/CubeScene';
 import { EffectScene } from './game/scenes/EffectScene';
+import { LogMng } from './utils/LogMng';
 
-window.addEventListener('load', () => {
-    Params.render.canvasParent = document.getElementById('game');
+function initLogMng() {
+    // init debug mode
+    Params.isDebugMode = window.location.hash === '#debug';
+    // LogMng settings
+    if (!Params.isDebugMode) LogMng.setMode(LogMng.MODE_RELEASE);
+    LogMng.system('log mode: ' + LogMng.getMode());
+}
+
+function initGameEngine() {
     new GameEngine({
-        assetsPath: './assets/',
+        inputDomElement: Params.render.canvasParent,
         scenes: [
             new BootScene(),
             new PreloaderScene(),
@@ -21,8 +29,17 @@ window.addEventListener('load', () => {
             new EffectScene(),
         ]
     });
-}, false);
+}
 
-window.addEventListener('resize', () => {
-    FrontEvents.onWindowResizeSignal.dispatch();
+function initEvents() {
+    window.addEventListener('resize', () => {
+        FrontEvents.onWindowResizeSignal.dispatch();
+    }, false);
+}
+
+window.addEventListener('load', () => {
+    Params.render.canvasParent = document.getElementById('game');
+    initLogMng();
+    initGameEngine();
+    initEvents();
 }, false);

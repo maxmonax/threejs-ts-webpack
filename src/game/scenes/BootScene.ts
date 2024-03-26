@@ -1,5 +1,4 @@
 import { LogMng } from "../../utils/LogMng";
-import { Params } from '../data/Params';
 import { MyUtils } from '../../utils/MyUtils';
 import { BasicScene } from "../../core/scene/BasicScene";
 import { SceneNames } from "./SceneNames";
@@ -8,16 +7,6 @@ export class BootScene extends BasicScene {
 
     constructor() {
         super(SceneNames.BootScene);
-    }
-
-    logDebug(aMsg: string, aData?: any): void {
-        LogMng.debug(`BootScene: ${aMsg}`, aData);
-    }
-    logWarn(aMsg: string, aData?: any): void {
-        LogMng.warn(`BootScene: ${aMsg}`, aData);
-    }
-    logError(aMsg: string, aData?: any): void {
-        LogMng.error(`BootScene: ${aMsg}`, aData);
     }
 
     onInit() {

@@ -1,11 +1,12 @@
 import { BasicScene } from "../../core/scene/BasicScene";
+import { Params } from "../data/Params";
 import { DebugGui } from "../debug/DebugGui";
 import { SceneNames } from "./SceneNames";
 
 export class DemoScene extends BasicScene {
 
     protected initGuiSceneFolder() {
-        if (!DebugGui.getInstance()) return;
+        if (!Params.isDebugMode) return;
         let DATA = {
             spheres: () => {
                 this.startScene(SceneNames.SphereScene);

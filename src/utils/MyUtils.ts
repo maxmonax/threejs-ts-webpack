@@ -1,4 +1,5 @@
-﻿
+﻿import { MyMath } from "./MyMath";
+
 export class MyUtils {
 
     private static queryValues: { [index: string]: string }[] = null;
@@ -68,6 +69,11 @@ export class MyUtils {
         // let step = randomIntInRange(0, alphaStepCnt);
         // let a = Math.trunc(step * alphaStepValue);
         return (r << 16) + (g << 8) + b;
+    }
+
+    static getRandomValueFromArray<T>(aMas: T[]): T {
+        let id = MyMath.randomIntInRange(0, aMas.length - 1);
+        return aMas[id];
     }
 
 }

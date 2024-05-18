@@ -76,7 +76,7 @@ export class MyMath {
         if (min > max) throw new Error("MyMath.randomIntInRange(): Min > Max!");
         return Math.round(MyMath.randomInRange(min, max));
     }
-    
+
     public static isValueBetween(aValue: number, aMin: number, aMax: number): boolean {
         return aValue >= aMin && aValue <= aMax;
     }
@@ -194,6 +194,34 @@ export class MyMath {
         const dx = p1.x - p2.x;
         const dy = p1.y - p2.y;
         return Math.sqrt(dx * dx + dy * dy);
+    }
+
+    /**
+     * Calculates the x coordinate to space elements evenly within a given width.
+     *
+     * @param containerSize - The total width of the container in which you want to place the elements.
+     * @param elementsCount - The total number of elements to distribute.
+     * @param elementId - The index of the current element (starting at 0).
+     * @returns The x coordinate for the specified element.
+     */
+    public static calculatePosition(aParams: {
+        containerSize: number,
+        elementsCount: number,
+        elementId: number,
+        padding?: {
+            left: number,
+            right: number,
+        },
+    }): number {
+        if (aParams.elementsCount < 1 || aParams.elementId < 0 || aParams.elementId >= aParams.elementsCount) {
+            throw new Error("Invalid input: numElements must be > 0 and elementIndex must be valid.");
+        }
+        const pLeft = aParams.padding?.left || 0;
+        const pRight = aParams.padding?.right || 0;
+        const innerWidth = aParams.containerSize - pLeft - pRight;
+        const spacing = aParams.elementsCount > 1 ? innerWidth / (aParams.elementsCount - 1) : 0;
+        const x = pLeft + spacing * (aParams.elementId);
+        return x;
     }
 
     /**

@@ -1,4 +1,3 @@
-import { LogMng } from "../../utils/LogMng";
 import { MyUtils } from '../../utils/MyUtils';
 import { BasicScene } from "../../core/scene/BasicScene";
 import { SceneNames } from "./SceneNames";

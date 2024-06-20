@@ -1,9 +1,7 @@
 import * as THREE from "three";
-import { BasicScene } from "../../core/scene/BasicScene";
 import { Params } from "../data/Params";
 import { SceneNames } from "./SceneNames";
 import { Config } from "../data/Config";
-import { DebugGui } from "../debug/DebugGui";
 import { DemoScene } from "./DemoScene";
 
 export class CubeScene extends DemoScene {

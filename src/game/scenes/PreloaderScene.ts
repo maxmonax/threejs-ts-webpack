@@ -1,7 +1,6 @@
 import { ThreeLoader } from '../../utils/threejs/ThreeLoader';
 import { TEXTURE_LOAD_LIST } from '../data/TextureData';
 import { MODEL_LOAD_LIST } from '../data/ModelData';
-import { LogMng } from '../../utils/LogMng';
 import { BasicScene } from '../../core/scene/BasicScene';
 import { SceneNames } from './SceneNames';
 import { Config } from '../data/Config';

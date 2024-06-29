@@ -9,6 +9,8 @@ import { PreloaderScene } from './game/scenes/PreloaderScene';
 import { CubeScene } from './game/scenes/CubeScene';
 import { EffectScene } from './game/scenes/EffectScene';
 import { LogMng } from './utils/LogMng';
+import { SceneNames } from './game/scenes/SceneNames';
+import { BasicScene } from './core/scene/BasicScene';
 
 function initLogMng() {
     // init debug mode
@@ -19,15 +21,16 @@ function initLogMng() {
 }
 
 function initGameEngine() {
+    let scenes: { [key in SceneNames]: BasicScene } = {
+        'BootScene': new BootScene(),
+        'PreloaderScene': new PreloaderScene(),
+        'SphereScene': new SphereScene(),
+        'CubeScene': new CubeScene(),
+        'EffectScene': new EffectScene()
+    }
     new GameEngine({
         inputDomElement: Params.render.canvasParent,
-        scenes: [
-            new BootScene(),
-            new PreloaderScene(),
-            new SphereScene(),
-            new CubeScene(),
-            new EffectScene(),
-        ]
+        scenes: Object.values(scenes)
     });
 }
 

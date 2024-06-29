@@ -85,7 +85,6 @@ export class DebugGui implements ILogger {
             }
         } catch (error) {
             this.logError(`removeElement:`, error);
-            debugger;
         }
         
     }

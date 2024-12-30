@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import { ILogger } from "./interfaces/ILogger";
-import { LogMng } from "../utils/LogMng";
+import { LogMng } from "../utils/logger/LogMng";
 import { SceneMng } from "./scene/SceneMng";
 import { FrontEvents } from "./events/FrontEvents";
 import { BasicScene } from "./scene/BasicScene";

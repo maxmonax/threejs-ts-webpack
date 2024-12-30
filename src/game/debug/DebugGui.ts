@@ -1,5 +1,5 @@
 import { ILogger } from "@/core/interfaces/ILogger";
-import { LogMng } from "@/utils/LogMng";
+import { LogMng } from "@/utils/logger/LogMng";
 import * as datGui from "dat.gui";
 
 type GuiElementType = 'field' | 'folder';

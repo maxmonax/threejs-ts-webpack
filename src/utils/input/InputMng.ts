@@ -1,5 +1,5 @@
 import { Signal } from "../events/Signal";
-import { LogMng } from "../LogMng";
+import { LogMng } from "../logger/LogMng";
 import { MyMath } from "../MyMath";
 
 const DEFAULTS = {

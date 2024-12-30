@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import { ILogger } from "../interfaces/ILogger";
 import { IUpdatable } from "../interfaces/IUpdatable";
-import { LogMng } from "../../utils/LogMng";
+import { LogMng } from "../../utils/logger/LogMng";
 import { Renderer } from "../renderers/Renderer";
 import { Params } from "../../game/data/Params";
 import { Signal } from "../../utils/events/Signal";

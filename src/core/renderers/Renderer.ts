@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import { ILogger } from "../interfaces/ILogger";
-import { LogMng } from "../../utils/LogMng";
+import { LogMng } from "../../utils/logger/LogMng";
 
 export type RendererParams = {
     domCanvasParent: HTMLElement,

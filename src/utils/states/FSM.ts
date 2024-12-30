@@ -1,106 +1,47 @@
-import { LogMng } from "../LogMng";
+import { LogMng } from "../logger/LogMng";
+import { FsmState } from "./FsmState";
 
-type EnterFunction = (userData: any) => void;
-type UpdateFunction = (dt: number, userData?: any) => void;
+export class Fsm {
+    private _states = new Map<string, FsmState>();
+    private _currState?: FsmState;
 
-interface IState {
-    name: string;
-    context?: any;
-    userData?: any;
-    onEnter?: EnterFunction;
-    onUpdate?: UpdateFunction;
-    onExit?: Function;
-};
-
-type stateQueueItem = {
-    name: string;
-    userData: any;
-};
-
-export class FSM {
-
-    private stateList = new Map<string, IState>(); // : { [id: string]: StateItem };
-    private changeStateQueue: stateQueueItem[] = [];
-    private isChangingState = false;
-    private currState?: IState;
-
-    addState(aName: string, aContext?: any, aEnter?: EnterFunction, aUpdate?: UpdateFunction, aExit?: Function): FSM {
-
-        if (this.stateList.has(aName)) {
-            LogMng.warn('FSM: Trying to add an already existing state ' + aName);
-            return;
-        }
-
-        this.stateList.set(aName, {
-            name: aName,
-            context: aContext,
-            onEnter: aEnter,
-            onUpdate: aUpdate,
-            onExit: aExit
-        });
-
-        return this;
-
+    isCurrentState(aName: string): boolean {
+        return this._currState && this._currState.name == aName;
     }
 
-    startState(aName: string, aUserData: any = null) {
+    getCurrentState(): FsmState {
+        return this._currState;
+    }
 
-        if (!this.stateList.has(aName)) {
-            LogMng.warn(`FSM: Tried to start an uninitialized state ${aName}`);
-            return;
-        }
+    addState(aState: FsmState): Fsm {
+        this._states.set(aState.name, aState);
+        return this;
+    }
+
+    setState(aName: string, aUserData: any = null) {
 
         if (this.isCurrentState(aName)) {
             return;
         }
 
-        if (this.isChangingState) {
-            this.changeStateQueue.push({
-                name: aName,
-                userData: aUserData
-            });
+        if (!this._states.has(aName)) {
+            LogMng.warn(`Fsm -> Tried to set an uninitialized state ${aName}`);
             return;
         }
 
-        this.isChangingState = true;
+        this._currState?.exit();
+        this._currState = this._states.get(aName);
+        this._currState.enter();
 
-        let oldState = this.currState;
-
-        if (oldState && oldState.onExit) {
-            oldState.onExit.call(oldState.context);
-        }
-
-        this.currState = this.stateList.get(aName);
-        this.currState.userData = aUserData;
-        if (this.currState.onEnter) this.currState.onEnter.call(this.currState.context, aUserData);
-
-        this.isChangingState = false;
-    }
-
-    isCurrentState(aName: string): boolean {
-        return this.currState && this.currState.name == aName;
-    }
-
-    getCurrentState(): IState {
-        return this.currState;
-    }
-
-    free() {
-        this.currState = null;
-        this.stateList = null;
     }
 
     update(dt: number): void {
+        this._currState?.update(dt);
+    }
 
-        if (this.changeStateQueue.length > 0) {
-            let data = this.changeStateQueue.shift()!;
-            this.startState(data.name, data.userData);
-            return;
-        }
-
-        if (this.currState && this.currState.onUpdate) {
-            this.currState.onUpdate.call(this.currState.context, dt, this.currState.userData);
-        }
+    free() {
+        this._currState = null;
+        this._states = null;
     }
 
 }

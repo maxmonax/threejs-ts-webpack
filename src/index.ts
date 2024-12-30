@@ -8,7 +8,7 @@ import { BootScene } from './game/scenes/BootScene';
 import { PreloaderScene } from './game/scenes/PreloaderScene';
 import { CubeScene } from './game/scenes/CubeScene';
 import { EffectScene } from './game/scenes/EffectScene';
-import { LogMng } from './utils/LogMng';
+import { LogMng } from './utils/logger/LogMng';
 import { SceneNames } from './game/scenes/SceneNames';
 import { BasicScene } from './core/scene/BasicScene';
 
